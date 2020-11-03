@@ -7,10 +7,20 @@ class Country(models.Model):
     code = models.CharField(max_length=2)
     language = models.CharField(max_length=200)
 
+    class Meta:
+        verbose_name_plural = "Countries"
+
+    def __str__(self):
+        return self.name
+
+
 class State(models.Model):
     name = models.CharField(max_length=200)
     code = models.CharField(max_length=2)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 
 class Biome(models.Model):
@@ -22,6 +32,9 @@ class Biome(models.Model):
     description = models.TextField(null=True)
     description_local = models.TextField(null=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Land(models.Model):
     name = models.CharField(max_length=200)
@@ -31,3 +44,6 @@ class Land(models.Model):
     total_area = models.DecimalField(max_digits=9, decimal_places=2, null=True)
     preserved_area = models.DecimalField(max_digits=9, decimal_places=2, null=True)
     isa_id = models.IntegerField(null=True)
+
+    def __str__(self):
+        return self.name
