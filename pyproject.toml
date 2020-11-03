@@ -11,6 +11,7 @@ Django = "^3.1.2"
 django-environ = "^0.4.5"
 psycopg2 = "^2.8.6"
 django_redis = "^4.12.1"
+requests = "^2.24.0"
 
 [tool.poetry.dev-dependencies]
 Werkzeug = "^1.0.1"
@@ -27,6 +28,7 @@ django-debug-toolbar = "^3.1.1"
 django-extensions = "^3.0.9"
 django-coverage-plugin = "^1.8.0"
 pytest-django = "^4.1.0"
+line_profiler = "^3.0.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
