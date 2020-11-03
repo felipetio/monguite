@@ -1,11 +1,19 @@
 exclude: 'docs|node_modules|migrations|.git|.tox'
-default_stages: [commit]
-fail_fast: true
+default_stages: [push]
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v3.2.0
     hooks:
+      - id: check-added-large-files
+        args: ['--maxkb=500']
+      - id: check-byte-order-marker
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: debug-statements
+        language_version: python3
+      - id: detect-private-key
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
@@ -14,11 +22,13 @@ repos:
     rev: 20.8b1
     hooks:
       - id: black
+        entry: black --fast --check
 
   - repo: https://github.com/timothycrosley/isort
     rev: 5.6.4
     hooks:
       - id: isort
+        entry: isort -c --check-only
 
   - repo: https://gitlab.com/pycqa/flake8
     rev: 3.8.4
