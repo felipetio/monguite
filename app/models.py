@@ -1,7 +1,10 @@
+import uuid
+
 from django.db import models
 
 
 class Country(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200)
     name_local = models.CharField(max_length=200)
     code = models.CharField(max_length=2)
@@ -15,6 +18,7 @@ class Country(models.Model):
 
 
 class State(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200)
     code = models.CharField(max_length=2)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
@@ -24,6 +28,7 @@ class State(models.Model):
 
 
 class Biome(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200)
     name_local = models.CharField(max_length=200)
     total_area = models.DecimalField(
@@ -41,6 +46,7 @@ class Biome(models.Model):
 
 
 class Land(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     CATEGORY_CHOICES = (
         ("DI", "Dominial Indígena"),
         ("PI", "Parque Indígena"),

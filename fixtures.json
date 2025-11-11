@@ -1,7 +1,7 @@
 [
   {
     "model": "app.country",
-    "pk": 1,
+    "pk": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "fields": {
       "name": "Brazil",
       "name_local": "Brasil",
@@ -11,336 +11,336 @@
   },
   {
     "model": "app.state",
-    "pk": 1,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01",
     "fields": {
       "name": "Acre",
       "code": "AC",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 2,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a02",
     "fields": {
       "name": "Alagoas",
       "code": "AL",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 3,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a03",
     "fields": {
       "name": "Amazonas",
       "code": "AM",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 4,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a04",
     "fields": {
-      "name": "Amap\u00e1",
+      "name": "Amapá",
       "code": "AP",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 5,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a05",
     "fields": {
       "name": "Bahia",
       "code": "BA",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 6,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a06",
     "fields": {
-      "name": "Cear\u00e1",
+      "name": "Ceará",
       "code": "CE",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 7,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a07",
     "fields": {
       "name": "Distrito Federal",
       "code": "DF",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 8,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a08",
     "fields": {
       "name": "Espirito Santo",
       "code": "ES",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 9,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a09",
     "fields": {
-      "name": "Goi\u00e1s",
+      "name": "Goiás",
       "code": "GO",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 10,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a10",
     "fields": {
-      "name": "Maranh\u00e3o",
+      "name": "Maranhão",
       "code": "MA",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 11,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
     "fields": {
       "name": "Minas Gerais",
       "code": "MG",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 12,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12",
     "fields": {
       "name": "Mato Grosso do Sul",
       "code": "MS",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 13,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a13",
     "fields": {
       "name": "Mato Grosso",
       "code": "MT",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 14,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a14",
     "fields": {
-      "name": "Par\u00e1",
+      "name": "Pará",
       "code": "PA",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 15,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a15",
     "fields": {
-      "name": "Para\u00edba",
+      "name": "Paraíba",
       "code": "PB",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 16,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a16",
     "fields": {
       "name": "Pernambuco",
       "code": "PE",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 17,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a17",
     "fields": {
-      "name": "Piau\u00ed",
+      "name": "Piauí",
       "code": "PI",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 18,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a18",
     "fields": {
-      "name": "Paran\u00e1",
+      "name": "Paraná",
       "code": "PR",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 19,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a19",
     "fields": {
       "name": "Rio de Janeiro",
       "code": "RJ",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 20,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a20",
     "fields": {
       "name": "Rio Grande do Norte",
       "code": "RN",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 21,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a21",
     "fields": {
-      "name": "Rond\u00f4nia",
+      "name": "Rondônia",
       "code": "RO",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 22,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a22",
     "fields": {
       "name": "Roraima",
       "code": "RR",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 23,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a23",
     "fields": {
       "name": "Rio Grande do Sul",
       "code": "RS",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 24,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a24",
     "fields": {
       "name": "Santa Catarina",
       "code": "SC",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 25,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a25",
     "fields": {
       "name": "Sergipe",
       "code": "SE",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 26,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a26",
     "fields": {
-      "name": "S\u00e3o Paulo",
+      "name": "São Paulo",
       "code": "SP",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.state",
-    "pk": 27,
+    "pk": "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a27",
     "fields": {
       "name": "Tocantins",
       "code": "TO",
-      "country": 1
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11"
     }
   },
   {
     "model": "app.biome",
-    "pk": 2,
+    "pk": "c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a01",
     "fields": {
       "name": "Amazon Region",
-      "name_local": "Amaz\u00f4nia",
+      "name_local": "Amazônia",
       "total_area": "4196943.00",
       "preserved_area": "3567401.55",
-      "country": 1,
-      "description": "The Bioma of the Amazon Region occupies around 49% of the Brazilian territory, reaching the totality of the States of Acre, Amap\u00e1, Amazonas, Par\u00e1, Roraima and part of the States of Maranh\u00e3o, Tocantins, Rond\u00f4nia and Mato Grosso. It can be estimated that it contains around 20% of the worldwide availability of water and huge mineral reserves. The vegetation of the Bioma of the Amazon Region presents some diverse vegetation, rich in plants indicated for the most different uses. We have to consider still the vast fauna, the fungi, the bacterias and all sort of microorganisms, that contribute to the ecological balance of this Bioma. This biological diversity is the result of the interaction of many varied and predominant climatic and geographic conditions. For these and many other characteristics, the Bioma of the Amazon Region is considered as being the biggest reserve of biologic diversity in the world, existing some estimates that it houses at least half of all the living species of the planet.",
-      "description_local": "O Bioma Amaz\u00f4nia ocupa cerca de 49% do territ\u00f3rio brasileiro abrangendo a totalidade dos Estados do Acre, Amap\u00e1, Amazonas, Par\u00e1, Roraima e parte dos Estados do Maranh\u00e3o, Tocantins, Rond\u00f4nia e Mato Grosso. Estima-se que cont\u00e9m 20% da disponibilidade mundial de \u00e1gua e grandes reservas minerais. A vegeta\u00e7\u00e3o do Bioma Amaz\u00f4nia apresenta uma flora variada, rica em plantas indicadas para os mais diferentes usos. H\u00e1 que se considerar ainda a vasta fauna, os fungos, as bact\u00e9rias e a gama de outros microrganismos, que contribuem para o balan\u00e7o ecol\u00f3gico deste Bioma. Esta diversidade biol\u00f3gica \u00e9 resultado da intera\u00e7\u00e3o das variadas condi\u00e7\u00f5es geoclim\u00e1ticas predominantes. Por essas e outras caracter\u00edsticas, o Bioma Amaz\u00f4nia \u00e9 considerado como sendo a maior reserva de diversidade biol\u00f3gica do mundo, havendo estimativas de que abrigue pelo menos a metade de todas as esp\u00e9cies vivas do planeta."
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+      "description": "The Bioma of the Amazon Region occupies around 49% of the Brazilian territory, reaching the totality of the States of Acre, Amapá, Amazonas, Pará, Roraima and part of the States of Maranhão, Tocantins, Rondônia and Mato Grosso. It can be estimated that it contains around 20% of the worldwide availability of water and huge mineral reserves. The vegetation of the Bioma of the Amazon Region presents some diverse vegetation, rich in plants indicated for the most different uses. We have to consider still the vast fauna, the fungi, the bacterias and all sort of microorganisms, that contribute to the ecological balance of this Bioma. This biological diversity is the result of the interaction of many varied and predominant climatic and geographic conditions. For these and many other characteristics, the Bioma of the Amazon Region is considered as being the biggest reserve of biologic diversity in the world, existing some estimates that it houses at least half of all the living species of the planet.",
+      "description_local": "O Bioma Amazônia ocupa cerca de 49% do território brasileiro abrangendo a totalidade dos Estados do Acre, Amapá, Amazonas, Pará, Roraima e parte dos Estados do Maranhão, Tocantins, Rondônia e Mato Grosso. Estima-se que contém 20% da disponibilidade mundial de água e grandes reservas minerais. A vegetação do Bioma Amazônia apresenta uma flora variada, rica em plantas indicadas para os mais diferentes usos. Há que se considerar ainda a vasta fauna, os fungos, as bactérias e a gama de outros microrganismos, que contribuem para o balanço ecológico deste Bioma. Esta diversidade biológica é resultado da interação das variadas condições geoclimáticas predominantes. Por essas e outras características, o Bioma Amazônia é considerado como sendo a maior reserva de diversidade biológica do mundo, havendo estimativas de que abrigue pelo menos a metade de todas as espécies vivas do planeta."
     }
   },
   {
     "model": "app.biome",
-    "pk": 3,
+    "pk": "c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a02",
     "fields": {
       "name": "Caatinga",
       "name_local": "Caatinga",
       "total_area": "850000.00",
       "preserved_area": "532865.00",
-      "country": 1,
-      "description": "The Bioma Caatinga occupies an area of around 10% of the national territory, occupying all the State of Cear\u00e1 and parts of Maranh\u00e3o, Piau\u00ed, Rio Grande do Norte, Para\u00edba, Pernambuco, Alagoas, Sergipe, Bahia and Minas Gerais. The word Caatinga comes from some indian origin and it means a clear and open forest. It applies traditionally to the landscape group of the deep inside lands of the Northeast Region of Brazil, an important space of semi arid land in South America, in a country with the predominance of humid and sub-humid tropical climates. It constitutes also one of the important exceptions in the climatic and hydrological context of the continent, characterized by the abundance of humidity and it has a singular position in the hemisphere, marked by an important influence from the oceans. Although it is localized in an area of semi-arid climate, it presents a huge variety of landscapes, some relative biological richness and some species that only live in this Bioma. The most important and very present vegetation in this Bioma is the Steppe Savanna (Caatinga), that shows in its deciduous physiognomy full of spines, pointed by cactus and bromelias, the harshness of the dryness, of the heat and of the light in the tropics. The Caatinga constitutes the most ancient representative of the aridity of the last Glacial Period, constituting a kind of witness in extinction.",
-      "description_local": "O Bioma Caatinga ocupa uma \u00e1rea aproximada de 10% do territ\u00f3rio nacional, se estendendo totalmente pelo Estado do Cear\u00e1 e parte do Maranh\u00e3o, Piau\u00ed, Rio Grande do Norte, Para\u00edba, Pernambuco, Alagoas, Sergipe, Bahia e Minas Gerais. O termo Caatinga \u00e9 de origem ind\u00edgena e significa mata clara e aberta. Aplica-se tradicionalmente ao conjunto paisag\u00edstico do sert\u00e3o nordestino do Brasil, um importante espa\u00e7o semi\u00e1rido da Am\u00e9rica do Sul, em um pa\u00eds com predomin\u00e2ncia de climas tropicais \u00famidos e sub\u00famidos. Constitui-se tamb\u00e9m em uma das exce\u00e7\u00f5es marcantes no contexto clim\u00e1tico e hidrol\u00f3gico do continente, caracterizado pela abund\u00e2ncia de umidade, e possui posi\u00e7\u00e3o singular no hemisf\u00e9rio, marcado por uma grande influ\u00eancia oce\u00e2nica. Embora esteja localizado em \u00e1rea de clima semi\u00e1rido, apresenta grande variedade de paisagens, relativa riqueza biol\u00f3gica e esp\u00e9cies que s\u00f3 ocorrem nesse Bioma. A vegeta\u00e7\u00e3o mais importante e onipresente nesse Bioma \u00e9 a Savana Est\u00e9pica (Caatinga) que retrata, em sua fisionomia decidual e espinhosa pontilhada de cactos e brom\u00e9lias, os rigores da secura, do calor e da luminosidade tropical. A Caatinga constitui-se no mais antigo representante da aridez do \u00faltimo per\u00edodo glacial, sendo considerado um tipo de testemunha em extin\u00e7\u00e3o."
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+      "description": "The Bioma Caatinga occupies an area of around 10% of the national territory, occupying all the State of Ceará and parts of Maranhão, Piauí, Rio Grande do Norte, Paraíba, Pernambuco, Alagoas, Sergipe, Bahia and Minas Gerais. The word Caatinga comes from some indian origin and it means a clear and open forest. It applies traditionally to the landscape group of the deep inside lands of the Northeast Region of Brazil, an important space of semi arid land in South America, in a country with the predominance of humid and sub-humid tropical climates. It constitutes also one of the important exceptions in the climatic and hydrological context of the continent, characterized by the abundance of humidity and it has a singular position in the hemisphere, marked by an important influence from the oceans. Although it is localized in an area of semi-arid climate, it presents a huge variety of landscapes, some relative biological richness and some species that only live in this Bioma. The most important and very present vegetation in this Bioma is the Steppe Savanna (Caatinga), that shows in its deciduous physiognomy full of spines, pointed by cactus and bromelias, the harshness of the dryness, of the heat and of the light in the tropics. The Caatinga constitutes the most ancient representative of the aridity of the last Glacial Period, constituting a kind of witness in extinction.",
+      "description_local": "O Bioma Caatinga ocupa uma área aproximada de 10% do território nacional, se estendendo totalmente pelo Estado do Ceará e parte do Maranhão, Piauí, Rio Grande do Norte, Paraíba, Pernambuco, Alagoas, Sergipe, Bahia e Minas Gerais. O termo Caatinga é de origem indígena e significa mata clara e aberta. Aplica-se tradicionalmente ao conjunto paisagístico do sertão nordestino do Brasil, um importante espaço semiárido da América do Sul, em um país com predominância de climas tropicais úmidos e subúmidos. Constitui-se também em uma das exceções marcantes no contexto climático e hidrológico do continente, caracterizado pela abundância de umidade, e possui posição singular no hemisfério, marcado por uma grande influência oceânica. Embora esteja localizado em área de clima semiárido, apresenta grande variedade de paisagens, relativa riqueza biológica e espécies que só ocorrem nesse Bioma. A vegetação mais importante e onipresente nesse Bioma é a Savana Estépica (Caatinga) que retrata, em sua fisionomia decidual e espinhosa pontilhada de cactos e bromélias, os rigores da secura, do calor e da luminosidade tropical. A Caatinga constitui-se no mais antigo representante da aridez do último período glacial, sendo considerado um tipo de testemunha em extinção."
     }
   },
   {
     "model": "app.biome",
-    "pk": 4,
+    "pk": "c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a03",
     "fields": {
       "name": "Cerrado",
       "name_local": "Cerrado",
       "total_area": "2045064.00",
       "preserved_area": "1124785.20",
-      "country": 1,
-      "description": "The Bioma Cerrado occurs mainly at the Brazilian Central Plateau and is present in all the area of the Federal District (Brasilia) and part of the States of Bahia, Goi\u00e1s, Maranh\u00e3o, Mato Grosso, Mato Grosso do Sul, Minas Gerais, Paran\u00e1, Piau\u00ed, Rond\u00f4nia, S\u00e3o Paulo and Tocantins. It reaches around 24% of the Brazilian territory. The Cerrado is renown as the richest savanna in the world in terms of biological diversity, with the presence of many green types of very rich flora. It is estimated that one in each three native plants of the region is used by mankind in some way. Hundreds of species of plants coming from the Brazilian Cerrado are used throughout the centuries by the indians, as food, medicine, animal food, decoration, food for bees, material of construction, for handicraft and for obtaining fibers, oils, tannins and other products. The fauna is rich. At the moment, the Bioma Cerrado houses the main region of expansion for the production of agriculture and cattle raising in the country. These activities have already resulted at the elimination of the native green covering of the Bioma and at the fragmentation of the majority of its natural habitats.",
-      "description_local": "O Bioma Cerrado ocorre principalmente no Planalto Central Brasileiro e est\u00e1 presente em toda \u00e1rea do Distrito Federal e parte dos Estados da Bahia, Goi\u00e1s, Maranh\u00e3o, Mato Grosso, Mato Grosso do Sul, Minas Gerais, Paran\u00e1, Piau\u00ed, Rond\u00f4nia, S\u00e3o Paulo e Tocantins. Abrange aproximadamente 24% do territ\u00f3rio brasileiro. O Cerrado \u00e9 reconhecido como a Savana mais rica do mundo em biodiversidade, com a presen\u00e7a de diversas tipologias vegetais de riqu\u00edssima flora. Estima-se que uma em cada tr\u00eas esp\u00e9cies de plantas nativas da regi\u00e3o \u00e9 utilizada de alguma forma pelo homem. Centenas de esp\u00e9cies de plantas do Cerrado s\u00e3o exploradas h\u00e1 s\u00e9culos pelos ind\u00edgenas e pelos colonizadores como alimento, rem\u00e9dio, forragem, plantas usadas em paisagismo, pasto ap\u00edcola, material de constru\u00e7\u00e3o e mat\u00e9ria-prima para artesanato e para obten\u00e7\u00e3o de fibras, \u00f3leo, tanino e outros produtos. A fauna \u00e9 rica. Atualmente, o Bioma Cerrado abriga o principal p\u00f3lo de expans\u00e3o da produ\u00e7\u00e3o agropecu\u00e1ria do pa\u00eds. Estas atividades j\u00e1 resultaram na elimina\u00e7\u00e3o de uma expressiva por\u00e7\u00e3o da cobertura vegetal nativa do Bioma e na fragmenta\u00e7\u00e3o da maioria dos seus habitats naturais."
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+      "description": "The Bioma Cerrado occurs mainly at the Brazilian Central Plateau and is present in all the area of the Federal District (Brasilia) and part of the States of Bahia, Goiás, Maranhão, Mato Grosso, Mato Grosso do Sul, Minas Gerais, Paraná, Piauí, Rondônia, São Paulo and Tocantins. It reaches around 24% of the Brazilian territory. The Cerrado is renown as the richest savanna in the world in terms of biological diversity, with the presence of many green types of very rich flora. It is estimated that one in each three native plants of the region is used by mankind in some way. Hundreds of species of plants coming from the Brazilian Cerrado are used throughout the centuries by the indians, as food, medicine, animal food, decoration, food for bees, material of construction, for handicraft and for obtaining fibers, oils, tannins and other products. The fauna is rich. At the moment, the Bioma Cerrado houses the main region of expansion for the production of agriculture and cattle raising in the country. These activities have already resulted at the elimination of the native green covering of the Bioma and at the fragmentation of the majority of its natural habitats.",
+      "description_local": "O Bioma Cerrado ocorre principalmente no Planalto Central Brasileiro e está presente em toda área do Distrito Federal e parte dos Estados da Bahia, Goiás, Maranhão, Mato Grosso, Mato Grosso do Sul, Minas Gerais, Paraná, Piauí, Rondônia, São Paulo e Tocantins. Abrange aproximadamente 24% do território brasileiro. O Cerrado é reconhecido como a Savana mais rica do mundo em biodiversidade, com a presença de diversas tipologias vegetais de riquíssima flora. Estima-se que uma em cada três espécies de plantas nativas da região é utilizada de alguma forma pelo homem. Centenas de espécies de plantas do Cerrado são exploradas há séculos pelos indígenas e pelos colonizadores como alimento, remédio, forragem, plantas usadas em paisagismo, pasto apícola, material de construção e matéria-prima para artesanato e para obtenção de fibras, óleo, tanino e outros produtos. A fauna é rica. Atualmente, o Bioma Cerrado abriga o principal pólo de expansão da produção agropecuária do país. Estas atividades já resultaram na eliminação de uma expressiva porção da cobertura vegetal nativa do Bioma e na fragmentação da maioria dos seus habitats naturais."
     }
   },
   {
     "model": "app.biome",
-    "pk": 5,
+    "pk": "c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a04",
     "fields": {
       "name": "Atlantic Forests",
-      "name_local": "Mata Atl\u00e2ntica",
+      "name_local": "Mata Atlântica",
       "total_area": "1310299.00",
       "preserved_area": "200205.00",
-      "country": 1,
-      "description": "The Bioma of the Atlantic Forests occupies nearly 13% of the Brazilian territory, reaching the totality of the States of Esp\u00edrito Santo, Rio de Janeiro, Santa Catarina, and parts of the States of Alagoas, Bahia, Goi\u00e1s, Mato Grosso do Sul, Minas Gerais, Para\u00edba, Paran\u00e1, Pernambuco, Rio Grande do Norte, Rio Grande do Sul, S\u00e3o Paulo and Sergipe. By the fact of being localized at the region close to the Brazilian coast, an area of higher population density, it has become the the most menaced among the Biomas that occur in Brazil. Despite its area to be found very reduced and fragmented, this Bioma is of primordial importance, because its reduced remaining green formations house a biological diversity without equal, besides giving many environment benefits. The remaining forests are localized mainly in areas of difficult access.",
-      "description_local": "O Bioma Mata Atl\u00e2ntica ocupa aproximadamente 13% do territ\u00f3rio brasileiro abrangendo a totalidade dos Estados do Esp\u00edrito Santo, Rio de Janeiro, Santa Catarina e parte dos Estados do Alagoas, Bahia, Goi\u00e1s, Mato Grosso do Sul, Minas Gerais, Para\u00edba, Paran\u00e1, Pernambuco, Rio Grande do Norte, Rio Grande do Sul, S\u00e3o Paulo e Sergipe. Pelo fato de localizar-se na regi\u00e3o litor\u00e2nea, \u00e1rea de maior densidade populacional, constitui-se no mais amea\u00e7ado entre os Biomas que ocorrem no Brasil. Apesar de sua \u00e1rea encontrar-se bastante reduzida e fragmentada, este Bioma \u00e9 de primordial import\u00e2ncia, pois suas reduzidas forma\u00e7\u00f5es vegetais remanescentes abrigam uma biodiversidade \u00edmpar, al\u00e9m de proporcionar in\u00fameros benef\u00edcios ambientais. Os remanescentes florestais est\u00e3o localizados, principalmente, em \u00e1reas de dif\u00edcil acesso."
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+      "description": "The Bioma of the Atlantic Forests occupies nearly 13% of the Brazilian territory, reaching the totality of the States of Espírito Santo, Rio de Janeiro, Santa Catarina, and parts of the States of Alagoas, Bahia, Goiás, Mato Grosso do Sul, Minas Gerais, Paraíba, Paraná, Pernambuco, Rio Grande do Norte, Rio Grande do Sul, São Paulo and Sergipe. By the fact of being localized at the region close to the Brazilian coast, an area of higher population density, it has become the the most menaced among the Biomas that occur in Brazil. Despite its area to be found very reduced and fragmented, this Bioma is of primordial importance, because its reduced remaining green formations house a biological diversity without equal, besides giving many environment benefits. The remaining forests are localized mainly in areas of difficult access.",
+      "description_local": "O Bioma Mata Atlântica ocupa aproximadamente 13% do território brasileiro abrangendo a totalidade dos Estados do Espírito Santo, Rio de Janeiro, Santa Catarina e parte dos Estados do Alagoas, Bahia, Goiás, Mato Grosso do Sul, Minas Gerais, Paraíba, Paraná, Pernambuco, Rio Grande do Norte, Rio Grande do Sul, São Paulo e Sergipe. Pelo fato de localizar-se na região litorânea, área de maior densidade populacional, constitui-se no mais ameaçado entre os Biomas que ocorrem no Brasil. Apesar de sua área encontrar-se bastante reduzida e fragmentada, este Bioma é de primordial importância, pois suas reduzidas formações vegetais remanescentes abrigam uma biodiversidade ímpar, além de proporcionar inúmeros benefícios ambientais. Os remanescentes florestais estão localizados, principalmente, em áreas de difícil acesso."
     }
   },
   {
     "model": "app.biome",
-    "pk": 6,
+    "pk": "c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a05",
     "fields": {
       "name": "Pampas",
       "name_local": "Pampa",
       "total_area": "176496.00",
       "preserved_area": "72928.00",
-      "country": 1,
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
       "description": "The Bioma Pampas with an area of around 2% of the Brazilian territory reaches the Southern half of the State of Rio Grande do Sul and constitutes the Brazilian portion of the South American Pampas, that extends also to the territories of Uruguay and of Argentina. It is characterized by the rainy climate, without a dry period, but with negative temperatures in the winter, influencing the vegetation. The Bioma Pampas, which makes limit with the Bioma Atlantic Forests is formed by four main groups of vegetation of open fields, like the Plateau of the Prairies, the Central Depression, the Plateau of the State of Rio Grande do Sul and the Plain of the Coast. In all the area of the Bioma Pampas, the human activity has made the green covering kind of uniform, in a general way used as natural grazing land for the cattle or otherwise occupied by the agriculture activities, mainly the culture of rice.",
-      "description_local": "O Bioma Pampa, com uma \u00e1rea aproximada de 2% do territ\u00f3rio nacional, abrange a metade sul do Estado do Rio Grande do Sul e constitui a por\u00e7\u00e3o brasileira dos Pampas Sul-Americanos, que se estendem pelos territ\u00f3rios do Uruguai e da Argentina. \u00c9 caracterizado por clima chuvoso, sem per\u00edodo seco, mas com temperaturas negativas no inverno, que influenciam a vegeta\u00e7\u00e3o. O Bioma Pampa, que faz limite apenas com o Bioma Mata Atl\u00e2ntica \u00e9 formado por quatro conjuntos principais de vegeta\u00e7\u00e3o de campos, como Planalto da Campanha, Depress\u00e3o Central, Planalto Sul-Rio-Grandense e Plan\u00edcie Costeira. Em toda a \u00e1rea de abrang\u00eancia do Bioma Pampa, a atividade humana propiciou uma uniformiza\u00e7\u00e3o da cobertura vegetal que, de um modo geral, \u00e9 usada como pastagem natural ou ocupada com atividades agr\u00edcolas, principalmente o cultivo do arroz."
+      "description_local": "O Bioma Pampa, com uma área aproximada de 2% do território nacional, abrange a metade sul do Estado do Rio Grande do Sul e constitui a porção brasileira dos Pampas Sul-Americanos, que se estendem pelos territórios do Uruguai e da Argentina. É caracterizado por clima chuvoso, sem período seco, mas com temperaturas negativas no inverno, que influenciam a vegetação. O Bioma Pampa, que faz limite apenas com o Bioma Mata Atlântica é formado por quatro conjuntos principais de vegetação de campos, como Planalto da Campanha, Depressão Central, Planalto Sul-Rio-Grandense e Planície Costeira. Em toda a área de abrangência do Bioma Pampa, a atividade humana propiciou uma uniformização da cobertura vegetal que, de um modo geral, é usada como pastagem natural ou ocupada com atividades agrícolas, principalmente o cultivo do arroz."
     }
   },
   {
     "model": "app.biome",
-    "pk": 7,
+    "pk": "c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a06",
     "fields": {
       "name": "Pantanal",
       "name_local": "Pantanal",
       "total_area": "150355.00",
       "preserved_area": "133364.00",
-      "country": 1,
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
       "description": "The Bioma Pantanal occupies around 2% of the Brazilian territory and reaches parts of the States of Mato Grosso and Mato Grosso do Sul. It constitutes the biggest area able to be flooded inside a continent in the world. The typologies of the vegetation of the Cerrado are predominant at this Bioma, occurring also some vegetation similar to the Caatinga and small areas with forests. Meanwhile, the Bioma Pantanal is renown as the biggest plain of continuous flooding in the planet, what constitutes the main factor for its formation and the major difference in relation to the other Biomas. There, the representatives of almost all the Brazilian fauna are reunited and, during the flooding periods, parts of this fauna gets refuge in the higher areas, returning when the waters get down.",
-      "description_local": "O Bioma Pantanal ocupa aproximadamente 2% do territ\u00f3rio nacional e abrange parte dos Estados do Mato Grosso e Mato Grosso do Sul. Constitui-se na maior superf\u00edcie inund\u00e1vel interiorana do mundo. As tipologias de vegeta\u00e7\u00e3o do Cerrado s\u00e3o predominantes neste bioma, ocorrendo tamb\u00e9m vegeta\u00e7\u00e3o semelhante \u00e0 Caatinga e pequenas \u00e1reas com florestas. Entretanto, o Bioma Pantanal \u00e9 reconhecido como a maior plan\u00edcie de inunda\u00e7\u00e3o cont\u00ednua do planeta, o que constitui o principal fator para a sua forma\u00e7\u00e3o e diferencia\u00e7\u00e3o em rela\u00e7\u00e3o aos demais Biomas. Ali se re\u00fanem representantes de quase toda a fauna brasileira e, durante o per\u00edodo de inunda\u00e7\u00e3o, parte dessa fauna se refugia nas \u00e1reas mais altas, retornando quando baixam as \u00e1guas."
+      "description_local": "O Bioma Pantanal ocupa aproximadamente 2% do território nacional e abrange parte dos Estados do Mato Grosso e Mato Grosso do Sul. Constitui-se na maior superfície inundável interiorana do mundo. As tipologias de vegetação do Cerrado são predominantes neste bioma, ocorrendo também vegetação semelhante à Caatinga e pequenas áreas com florestas. Entretanto, o Bioma Pantanal é reconhecido como a maior planície de inundação contínua do planeta, o que constitui o principal fator para a sua formação e diferenciação em relação aos demais Biomas. Ali se reúnem representantes de quase toda a fauna brasileira e, durante o período de inundação, parte dessa fauna se refugia nas áreas mais altas, retornando quando baixam as águas."
     }
   },
   {
     "model": "app.biome",
-    "pk": 8,
+    "pk": "c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a07",
     "fields": {
       "name": "Coastal and Maritime Zone",
-      "name_local": "Zona Costeira e Mar\u00edtima",
+      "name_local": "Zona Costeira e Marítima",
       "total_area": "8500.00",
       "preserved_area": "0.00",
-      "country": 1,
+      "country": "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
       "description": "The Brazilian Coastal Zone is extensive and varied. Brazil has a continuous coastline with more than 8 thousand kilometers in length, one of the largest in the world. Along this coastal strip it is possible to identify a great diversity of landscapes such as dunes, islands, reefs, rocky shores, bays, estuaries, swamps and cliffs. Depending on the region, the appearance is totally different from that found a few kilometers away. Even the ecosystems that are repeated along the coast - such as beaches, sandbanks, lagoons and mangroves - have different animal and vegetable species. This is basically due to climatic and geological differences. Much of the Brazilian coastal zone is threatened by overpopulation and agricultural and industrial activities.",
-      "description_local": "A Zona Costeira brasileira \u00e9 extensa e variada. O Brasil possui uma linha cont\u00ednua de costa com mais de 8 mil quil\u00f4metros de extens\u00e3o, uma das maiores do mundo. Ao longo dessa faixa litor\u00e2nea \u00e9 poss\u00edvel identificar uma grande diversidade de paisagens como dunas, ilhas, recifes, cost\u00f5es rochosos, ba\u00edas, estu\u00e1rios, brejos e fal\u00e9sias. Dependendo da regi\u00e3o, o aspecto \u00e9 totalmente diferente do encontrado a poucos quil\u00f4metros de dist\u00e2ncia. Mesmo os ecossistemas que se repetem ao longo do litoral - como praias, restingas, lagunas e manguezais - apresentam diferentes esp\u00e9cies animais e vegetais. Isso se deve, basicamente, \u00e0s diferen\u00e7as clim\u00e1ticas e geol\u00f3gicas. Grande parte da zona costeira brasileira est\u00e1 amea\u00e7ada pela superpopula\u00e7\u00e3o e por atividades agr\u00edcolas e industriais."
+      "description_local": "A Zona Costeira brasileira é extensa e variada. O Brasil possui uma linha contínua de costa com mais de 8 mil quilômetros de extensão, uma das maiores do mundo. Ao longo dessa faixa litorânea é possível identificar uma grande diversidade de paisagens como dunas, ilhas, recifes, costões rochosos, baías, estuários, brejos e falésias. Dependendo da região, o aspecto é totalmente diferente do encontrado a poucos quilômetros de distância. Mesmo os ecossistemas que se repetem ao longo do litoral - como praias, restingas, lagunas e manguezais - apresentam diferentes espécies animais e vegetais. Isso se deve, basicamente, às diferenças climáticas e geológicas. Grande parte da zona costeira brasileira está ameaçada pela superpopulação e por atividades agrícolas e industriais."
     }
   },
   {
