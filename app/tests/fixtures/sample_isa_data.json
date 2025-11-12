@@ -1,0 +1,159 @@
+{
+    "content": {
+        "info_geral": [
+            {
+                "id": 4184,
+                "nome_ti": "Acapuri de Cima",
+                "regiaopib_id": 5,
+                "regiao_pib": "Solimões",
+                "funasa": "Médio Rio Solimões e Afluentes (AM)",
+                "funai": "Alto Solimões",
+                "presenca_isolados": "Não",
+                "plotagem": "Sim",
+                "faixa_fronteira": "Não",
+                "pretenssao_mineraria": "Não",
+                "categoria": "TI",
+                "data_inclusao": "2003-11-11 18:45:20",
+                "data_alteracao": "2025-10-20 19:23:06",
+                "jurisdicao_legal": "Amazônia Legal",
+                "populacao_arp": 500,
+                "id_etd": 196,
+                "situacao_juridica": "Homologada",
+                "id_grupo_situacao_juridica": 6,
+                "grupo_situacao_juridica": "Homologada",
+                "area_oficial": "18393",
+                "area_isa": "18763",
+                "quantidade_ppl": 500,
+                "municipio": [
+                    {
+                        "nome_municipio": "Fonte Boa",
+                        "area_arp_municipio": "18763",
+                        "area_total_municipio": "1215603.4",
+                        "uf": "AM"
+                    }
+                ],
+                "total_povos_residentes": 1,
+                "povo": {
+                    "data": [
+                        {
+                            "povo_id": 51,
+                            "povo": "Kokama",
+                            "povo_normalizado": "kokama",
+                            "href": "https://api.socioambiental.org/sisarp/v2/povo/51"
+                        }
+                    ],
+                    "meta": {
+                        "page": 1,
+                        "total": 1,
+                        "max_itens_per_page": 1,
+                        "timestamp": "2025-11-10 21:00:03",
+                        "endpoint": "http://apisisarpv2.socioambiental.org/povo?arp=4184",
+                        "apikey": null
+                    }
+                }
+            },
+            {
+                "id": 6296,
+                "nome_ti": "Acapuri do Meio",
+                "regiaopib_id": 5,
+                "regiao_pib": "Solimões",
+                "funasa": "Médio Rio Solimões e Afluentes (AM)",
+                "funai": "Alto Solimões",
+                "presenca_isolados": "Não",
+                "plotagem": "Não",
+                "faixa_fronteira": null,
+                "pretenssao_mineraria": null,
+                "categoria": "TI",
+                "data_inclusao": "2024-10-07 13:40:15.005069",
+                "data_alteracao": "2025-06-30 11:22:59.820001",
+                "jurisdicao_legal": "Amazônia Legal",
+                "populacao_arp": null,
+                "id_etd": 219,
+                "situacao_juridica": "Em Estudo",
+                "id_grupo_situacao_juridica": 2,
+                "grupo_situacao_juridica": "Em Identificação",
+                "area_oficial": null,
+                "area_isa": null,
+                "quantidade_ppl": null,
+                "municipio": [
+                    {
+                        "nome_municipio": "Fonte Boa",
+                        "area_arp_municipio": "0",
+                        "area_total_municipio": "1215603.4",
+                        "uf": "AM"
+                    }
+                ],
+                "total_povos_residentes": 1,
+                "povo": {
+                    "data": [
+                        {
+                            "povo_id": 51,
+                            "povo": "Kokama",
+                            "povo_normalizado": "kokama",
+                            "href": "https://api.socioambiental.org/sisarp/v2/povo/51"
+                        }
+                    ],
+                    "meta": {
+                        "page": 1,
+                        "total": 1,
+                        "max_itens_per_page": 1,
+                        "timestamp": "2025-11-10 21:00:03",
+                        "endpoint": "http://apisisarpv2.socioambiental.org/povo?arp=6296",
+                        "apikey": null
+                    }
+                }
+            },
+            {
+                "id": 3935,
+                "nome_ti": "Acimã",
+                "regiaopib_id": 7,
+                "regiao_pib": "Juruá/Jutaí/Purus",
+                "funasa": "Médio Rio Purus (AM)",
+                "funai": "Médio Purus",
+                "presenca_isolados": "Não",
+                "plotagem": "Sim",
+                "faixa_fronteira": "Não",
+                "pretenssao_mineraria": "Não",
+                "categoria": "TI",
+                "data_inclusao": "2004-05-28 13:47:52",
+                "data_alteracao": "2019-02-20 14:59:45.939945",
+                "jurisdicao_legal": "Amazônia Legal",
+                "populacao_arp": 89,
+                "id_etd": 201,
+                "situacao_juridica": "Homologada",
+                "id_grupo_situacao_juridica": 7,
+                "grupo_situacao_juridica": "Registrada no CRI e/ou SPU",
+                "area_oficial": "40686",
+                "area_isa": "40901.13",
+                "quantidade_ppl": 89,
+                "municipio": [
+                    {
+                        "nome_municipio": "Lábrea",
+                        "area_arp_municipio": "40901.13",
+                        "area_total_municipio": "6826268",
+                        "uf": "AM"
+                    }
+                ],
+                "total_povos_residentes": 1,
+                "povo": {
+                    "data": [
+                        {
+                            "povo_id": 17,
+                            "povo": "Apurinã",
+                            "povo_normalizado": "apurina",
+                            "href": "https://api.socioambiental.org/sisarp/v2/povo/17"
+                        }
+                    ],
+                    "meta": {
+                        "page": 1,
+                        "total": 1,
+                        "max_itens_per_page": 1,
+                        "timestamp": "2025-11-10 21:00:03",
+                        "endpoint": "http://apisisarpv2.socioambiental.org/povo?arp=3935",
+                        "apikey": null
+                    }
+                }
+            }
+        ]
+    }
+}
