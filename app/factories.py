@@ -1,0 +1,84 @@
+"""Factory classes for creating test data using factory-boy."""
+
+import factory
+from factory.django import DjangoModelFactory
+
+from app.models import Biome, Community, Country, Land, Municipality, State
+
+
+class CountryFactory(DjangoModelFactory):
+    """Factory for creating Country instances."""
+
+    class Meta:
+        model = Country
+
+    name = factory.Faker("country")
+    code = factory.Faker("country_code")
+
+
+class StateFactory(DjangoModelFactory):
+    """Factory for creating State instances."""
+
+    class Meta:
+        model = State
+
+    name = factory.Faker("state")
+    code = factory.Faker("state_abbr")
+    name_local = factory.Faker("state")
+    country = factory.SubFactory(CountryFactory)
+
+
+class MunicipalityFactory(DjangoModelFactory):
+    """Factory for creating Municipality instances."""
+
+    class Meta:
+        model = Municipality
+
+    name = factory.Faker("city")
+    name_local = factory.Faker("city")
+    state = factory.SubFactory(StateFactory)
+
+
+class BiomeFactory(DjangoModelFactory):
+    """Factory for creating Biome instances."""
+
+    class Meta:
+        model = Biome
+
+    name = factory.Faker("word")
+    name_local = factory.Faker("word")
+    description = factory.Faker("text", max_nb_chars=200)
+    description_local = factory.Faker("text", max_nb_chars=200)
+    country = factory.SubFactory(CountryFactory)
+
+
+class CommunityFactory(DjangoModelFactory):
+    """Factory for creating Community instances."""
+
+    class Meta:
+        model = Community
+
+    name = factory.Faker("company")
+    slug = factory.Faker("slug")
+
+
+class LandFactory(DjangoModelFactory):
+    """Factory for creating Land instances."""
+
+    class Meta:
+        model = Land
+
+    name = factory.Faker("city")
+    category = factory.Iterator(["TI", "RI", "PI", "DI"])
+    municipality = factory.SubFactory(MunicipalityFactory)
+    biome = factory.SubFactory(BiomeFactory)
+
+    @factory.post_generation
+    def communities(self, create, extracted, **kwargs):
+        """Handle many-to-many relationship for communities."""
+        if not create:
+            return
+
+        if extracted:
+            for community in extracted:
+                self.communities.add(community)

@@ -8,6 +8,7 @@ from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test import TestCase
 
+from app.factories import CountryFactory
 from app.models import Community, Country, Land, Municipality, State
 
 
@@ -65,8 +66,8 @@ class LoadISADataCommandTest(TestCase):
 
     def test_brazil_country_reused(self):
         """Test that existing Brazil country is reused"""
-        # Create Brazil manually
-        Country.objects.create(code="BR", name="Brazil")
+        # Create Brazil using factory
+        CountryFactory(code="BR", name="Brazil")
 
         out = StringIO()
         call_command("load_isa_data", str(self.sample_data_path), stdout=out)
