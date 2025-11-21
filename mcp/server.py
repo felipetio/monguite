@@ -4,18 +4,27 @@ Monguite MCP Server
 Exposes the Monguite API for indigenous land data through MCP tools.
 """
 
+import asyncio
+import json
 import os
 import sys
-import json
-import asyncio
-import httpx
 from typing import Any
+
+import httpx
+from starlette.applications import Starlette
+from starlette.responses import Response
+from starlette.routing import Route
+
 from mcp.server import Server
-from mcp.types import Tool, TextContent
+from mcp.server.sse import SseServerTransport
+from mcp.types import TextContent, Tool
 
 # Environment configuration
 API_BASE_URL = os.getenv("MONGUITE_API_URL", "http://localhost:8000")
 API_TOKEN = os.getenv("MONGUITE_API_TOKEN", "")
+MCP_HOST = os.getenv("MCP_HOST", "0.0.0.0")
+MCP_PORT = int(os.getenv("MCP_PORT", "3000"))
+MCP_TRANSPORT = os.getenv("MCP_TRANSPORT", "stdio")  # stdio or http
 
 # Initialize MCP server
 app = Server("monguite-api")
@@ -345,17 +354,76 @@ async def call_tool(name: str, arguments: Any) -> list[TextContent]:
             return [TextContent(type="text", text=f"Error: {str(e)}")]
 
 
-async def main():
-    """Run the MCP server."""
-    from mcp.server.stdio import stdio_server
+async def handle_sse(request):
+    """Handle SSE connections for MCP protocol."""
+    sse = SseServerTransport("/messages")
 
-    # Validate configuration
+    async with sse.connect_sse(request.scope, request.receive, request._send) as (
+        read_stream,
+        write_stream,
+    ):
+        await app.run(read_stream, write_stream, app.create_initialization_options())
+
+    return Response()
+
+
+async def handle_messages(request):
+    """Handle POST messages from client."""
+    sse = SseServerTransport("/messages")
+
+    async with sse.connect_post(request.scope, request.receive, request._send) as (
+        read_stream,
+        write_stream,
+    ):
+        await app.run(read_stream, write_stream, app.create_initialization_options())
+
+    return Response()
+
+
+def create_app():
+    """Create the Starlette application."""
     validate_config()
 
-    log("Starting Monguite MCP server...")
+    return Starlette(
+        routes=[
+            Route("/sse", endpoint=handle_sse),
+            Route("/messages", endpoint=handle_messages, methods=["POST"]),
+        ]
+    )
+
+
+async def run_stdio():
+    """Run the MCP server over stdio (for Claude Desktop)."""
+    from mcp.server.stdio import stdio_server
+
+    validate_config()
+    log("Starting Monguite MCP server (stdio mode)...")
 
     async with stdio_server() as (read_stream, write_stream):
         await app.run(read_stream, write_stream, app.create_initialization_options())
+
+
+async def run_http():
+    """Run the MCP server over HTTP."""
+    import uvicorn
+
+    log(f"Starting Monguite MCP server (HTTP mode) on {MCP_HOST}:{MCP_PORT}...")
+    log(f"SSE endpoint: http://{MCP_HOST}:{MCP_PORT}/sse")
+    log(f"Messages endpoint: http://{MCP_HOST}:{MCP_PORT}/messages")
+
+    config = uvicorn.Config(
+        create_app(), host=MCP_HOST, port=MCP_PORT, log_level="info"
+    )
+    server = uvicorn.Server(config)
+    await server.serve()
+
+
+async def main():
+    """Run the MCP server in the configured transport mode."""
+    if MCP_TRANSPORT.lower() == "http":
+        await run_http()
+    else:
+        await run_stdio()
 
 
 if __name__ == "__main__":

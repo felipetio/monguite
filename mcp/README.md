@@ -12,21 +12,28 @@ This MCP server exposes the Monguite REST API through the Model Context Protocol
 ```bash
 # install mcp dependencies
 poetry install --with=mcp
-
-# find the pythpn interpreter path
-poetry run whereis python
 ```
 
-The working configuration uses `server.py`:
+The MCP server supports **two transport modes**: stdio (default) and HTTP.
+
+### Mode 1: stdio (Default - For Claude Desktop)
+
+The server runs in stdio mode by default, which is compatible with Claude Desktop:
+
+```bash
+# Find your Python interpreter path
+poetry run which python
+```
+
+**Claude Desktop Configuration** (`~/Library/Application Support/Claude/claude_desktop_config.json`):
 
 ```json
 {
   "mcpServers": {
-    "Monguite": {
-      "command": "/path/to/python",
-      "args": [
-        "/path/to/mcp/server.py"
-      ],
+    "monguite": {
+      "command": "/path/to/poetry",
+      "args": ["run", "python", "mcp/server.py"],
+      "cwd": "/Users/felipe/Projects/monguite",
       "env": {
         "MONGUITE_API_URL": "http://localhost:8000",
         "MONGUITE_API_TOKEN": ""
@@ -35,6 +42,46 @@ The working configuration uses `server.py`:
   }
 }
 ```
+
+Or directly with the Python interpreter:
+
+```json
+{
+  "mcpServers": {
+    "monguite": {
+      "command": "/path/to/python",
+      "args": ["/Users/felipe/Projects/monguite/mcp/server.py"],
+      "env": {
+        "MONGUITE_API_URL": "http://localhost:8000",
+        "MONGUITE_API_TOKEN": ""
+      }
+    }
+  }
+}
+```
+
+### Mode 2: HTTP Server (For Custom Clients)
+
+To run as an HTTP server using SSE (Server-Sent Events):
+
+```bash
+# Start the MCP server in HTTP mode
+MCP_TRANSPORT=http poetry run python mcp/server.py
+
+# Or with custom host/port
+MCP_TRANSPORT=http MCP_HOST=127.0.0.1 MCP_PORT=8080 poetry run python mcp/server.py
+```
+
+**Environment Variables:**
+- `MCP_TRANSPORT`: Transport mode - `stdio` (default) or `http`
+- `MONGUITE_API_URL`: URL of the Monguite API (default: `http://localhost:8000`)
+- `MONGUITE_API_TOKEN`: Optional API token for authentication
+- `MCP_HOST`: Host to bind the MCP server (default: `0.0.0.0`) - HTTP mode only
+- `MCP_PORT`: Port to bind the MCP server (default: `3000`) - HTTP mode only
+
+**HTTP Endpoints:**
+- `GET /sse` - SSE endpoint for MCP protocol communication
+- `POST /messages` - HTTP endpoint for posting messages
 
 
 ## Testing
@@ -52,13 +99,18 @@ poetry run python mcp/test.py
 
 ### MCP Protocol
 
-MCP uses stdio for communication:
+The server supports two transport modes:
+
+**stdio mode (default)**:
 - **stdin/stdout**: JSON-RPC protocol messages
 - **stderr**: Logging and debugging output
+- Compatible with Claude Desktop and other stdio-based MCP clients
 
-This is why we must:
-- Never print to stdout (use stderr for logs)
-- Output valid JSON-RPC on stdout only
+**HTTP mode**:
+- **SSE endpoint** (`/sse`): Establishes a long-lived connection for server-to-client events
+- **Messages endpoint** (`/messages`): Accepts POST requests from the client
+- **stderr**: Logging and debugging output (visible in server logs)
+- Uses **Starlette** ASGI web framework and **Uvicorn** server
 
 ## Available Tools
 
