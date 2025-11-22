@@ -1,10 +1,10 @@
 from django.test import TestCase
 from django.urls import reverse
+
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from app.factories import (BiomeFactory, CommunityFactory, CountryFactory,
-                           LandFactory, MunicipalityFactory, StateFactory)
+from app.factories import BiomeFactory, CommunityFactory, CountryFactory, LandFactory, MunicipalityFactory, StateFactory
 
 
 class TestLandAPI(TestCase):
@@ -16,12 +16,8 @@ class TestLandAPI(TestCase):
 
         # Create basic test data using factories
         self.country = CountryFactory(name="Brazil", code="BR")
-        self.state = StateFactory(
-            name="Acre", name_local="Acre", code="AC", country=self.country
-        )
-        self.municipality = MunicipalityFactory(
-            name="Rio Branco", name_local="Rio Branco", state=self.state
-        )
+        self.state = StateFactory(name="Acre", name_local="Acre", code="AC", country=self.country)
+        self.municipality = MunicipalityFactory(name="Rio Branco", name_local="Rio Branco", state=self.state)
         self.biome = BiomeFactory(
             name="Amazon",
             name_local="Amazônia",
@@ -360,12 +356,8 @@ class TestCommunityAPI(TestCase):
 
         # Create basic test data using factories
         self.country = CountryFactory(name="Brazil", code="BR")
-        self.state = StateFactory(
-            name="Acre", name_local="Acre", code="AC", country=self.country
-        )
-        self.municipality = MunicipalityFactory(
-            name="Rio Branco", name_local="Rio Branco", state=self.state
-        )
+        self.state = StateFactory(name="Acre", name_local="Acre", code="AC", country=self.country)
+        self.municipality = MunicipalityFactory(name="Rio Branco", name_local="Rio Branco", state=self.state)
         self.biome = BiomeFactory(
             name="Amazon",
             name_local="Amazônia",

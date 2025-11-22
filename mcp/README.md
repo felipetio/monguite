@@ -11,7 +11,7 @@ This MCP server exposes the Monguite REST API through the Model Context Protocol
 
 ```bash
 # Install all dependencies (including MCP server dependencies)
-poetry install
+uv sync
 ```
 
 The MCP server supports **two transport modes**: stdio (default) and HTTP.
@@ -22,7 +22,7 @@ The server runs in stdio mode by default, which is compatible with Claude Deskto
 
 ```bash
 # Find your Python interpreter path
-poetry run which python
+uv run which python
 ```
 
 **Claude Desktop Configuration** (`~/Library/Application Support/Claude/claude_desktop_config.json`):
@@ -31,7 +31,7 @@ poetry run which python
 {
   "mcpServers": {
     "monguite": {
-      "command": "/path/to/poetry",
+      "command": "uv",
       "args": ["run", "python", "mcp/server.py"],
       "cwd": "/Users/felipe/Projects/monguite",
       "env": {
@@ -66,10 +66,10 @@ To run as an HTTP server using SSE (Server-Sent Events):
 
 ```bash
 # Start the MCP server in HTTP mode
-MCP_TRANSPORT=http poetry run python mcp/server.py
+MCP_TRANSPORT=http uv run python mcp/server.py
 
 # Or with custom host/port
-MCP_TRANSPORT=http MCP_HOST=127.0.0.1 MCP_PORT=8080 poetry run python mcp/server.py
+MCP_TRANSPORT=http MCP_HOST=127.0.0.1 MCP_PORT=8080 uv run python mcp/server.py
 ```
 
 **Environment Variables:**
@@ -101,8 +101,8 @@ Test the MCP server before using it in Claude Desktop:
 
 ```bash
 # Test with Django server running
-poetry run python manage.py runserver &
-poetry run python mcp/test.py
+uv run python manage.py runserver &
+uv run python mcp/test.py
 ```
 
 

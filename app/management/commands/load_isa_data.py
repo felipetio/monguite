@@ -1,13 +1,14 @@
 import json
 from datetime import datetime
 from urllib.request import urlopen
-from django.core.management.base import BaseCommand, CommandError
-from django.db import transaction, IntegrityError
-from django.utils.dateparse import parse_datetime
-from django.utils.timezone import make_aware, is_naive, now
-from django.utils.text import slugify
 
-from app.models import Country, State, Municipality, Community, Land
+from django.core.management.base import BaseCommand, CommandError
+from django.db import IntegrityError, transaction
+from django.utils.dateparse import parse_datetime
+from django.utils.text import slugify
+from django.utils.timezone import is_naive, make_aware, now
+
+from app.models import Community, Country, Land, Municipality, State
 
 
 class Command(BaseCommand):
@@ -88,7 +89,7 @@ class Command(BaseCommand):
         if json_file:
             self.stdout.write(f"Loading data from file: {json_file}")
             try:
-                with open(json_file, "r", encoding="utf-8") as f:
+                with open(json_file, encoding="utf-8") as f:
                     data = json.load(f)
             except FileNotFoundError:
                 raise CommandError(f"File not found: {json_file}")
@@ -137,9 +138,7 @@ class Command(BaseCommand):
                     stats["communities_created"] += result["communities_created"]
                 except Exception as e:
                     self.stderr.write(
-                        self.style.ERROR(
-                            f"Error processing land '{land_data.get('nome_ti', 'unknown')}': {e}"
-                        )
+                        self.style.ERROR(f"Error processing land '{land_data.get('nome_ti', 'unknown')}': {e}")
                     )
                     continue
 
@@ -158,10 +157,7 @@ class Command(BaseCommand):
 
     def ensure_brazil_exists(self):
         """Ensure Brazil country exists in the database"""
-        brazil, created = Country.objects.get_or_create(
-            code="BR",
-            defaults={"name": "Brazil"}
-        )
+        brazil, created = Country.objects.get_or_create(code="BR", defaults={"name": "Brazil"})
         if created:
             self.stdout.write(self.style.SUCCESS("Created Brazil country record"))
         return brazil
@@ -180,23 +176,17 @@ class Command(BaseCommand):
         land_name = land_data.get("nome_ti")
 
         if not land_id or not land_name:
-            self.stdout.write(
-                self.style.WARNING(f"Skipping land with missing ID or name")
-            )
+            self.stdout.write(self.style.WARNING("Skipping land with missing ID or name"))
             result["land_skipped"] = 1
             return result
 
         source_id = str(land_id)
 
         # Check if land already exists (always check to avoid duplicates)
-        existing_land = Land.objects.filter(
-            source_id=source_id, source_name="ISA"
-        ).first()
+        existing_land = Land.objects.filter(source_id=source_id, source_name="ISA").first()
 
         if existing_land and not update_existing:
-            self.stdout.write(
-                self.style.WARNING(f"Skipping existing land: {land_name} (use --update to update)")
-            )
+            self.stdout.write(self.style.WARNING(f"Skipping existing land: {land_name} (use --update to update)"))
             result["land_skipped"] = 1
             return result
 
@@ -248,9 +238,7 @@ class Command(BaseCommand):
             land.communities.set(communities)
 
         if not dry_run:
-            self.stdout.write(
-                self.style.SUCCESS(f"{action} land: {land_name} (ID: {source_id})")
-            )
+            self.stdout.write(self.style.SUCCESS(f"{action} land: {land_name} (ID: {source_id})"))
 
         return result
 
@@ -266,16 +254,11 @@ class Command(BaseCommand):
         brazil = Country.objects.get(code="BR")
 
         # Get or create state
-        state, _ = State.objects.get_or_create(
-            code=state_code,
-            defaults={"name": state_code, "country": brazil}
-        )
+        state, _ = State.objects.get_or_create(code=state_code, defaults={"name": state_code, "country": brazil})
 
         # Get or create municipality
         municipality, created = Municipality.objects.get_or_create(
-            name=muni_name,
-            state=state,
-            defaults={"code": state_code}
+            name=muni_name, state=state, defaults={"code": state_code}
         )
 
         return municipality, created
@@ -299,10 +282,7 @@ class Command(BaseCommand):
 
         # Try to create with name, handling potential slug conflicts
         try:
-            community, created = Community.objects.get_or_create(
-                name=community_name,
-                defaults={"slug": base_slug}
-            )
+            community, created = Community.objects.get_or_create(name=community_name, defaults={"slug": base_slug})
             return community, created
         except IntegrityError:
             # Slug conflict with a different name - make slug unique
@@ -312,10 +292,7 @@ class Command(BaseCommand):
                 counter += 1
                 unique_slug = f"{base_slug}-{counter}"
 
-            community = Community.objects.create(
-                name=community_name,
-                slug=unique_slug
-            )
+            community = Community.objects.create(name=community_name, slug=unique_slug)
             return community, True
 
     def parse_datetime(self, datetime_str):

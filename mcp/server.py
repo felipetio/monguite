@@ -61,9 +61,7 @@ async def get_client() -> httpx.AsyncClient:
     # Add retry logic for transient failures
     transport = httpx.AsyncHTTPTransport(retries=3)
 
-    return httpx.AsyncClient(
-        base_url=API_BASE_URL, headers=headers, timeout=30.0, transport=transport
-    )
+    return httpx.AsyncClient(base_url=API_BASE_URL, headers=headers, timeout=30.0, transport=transport)
 
 
 @app.list_tools()
@@ -263,11 +261,7 @@ async def call_tool(name: str, arguments: Any) -> list[TextContent]:
                 response.raise_for_status()
                 data = response.json()
 
-                return [
-                    TextContent(
-                        type="text", text=json.dumps(data, indent=2, ensure_ascii=False)
-                    )
-                ]
+                return [TextContent(type="text", text=json.dumps(data, indent=2, ensure_ascii=False))]
 
             elif name == "search_communities":
                 params = {k: v for k, v in arguments.items() if v is not None}
@@ -299,20 +293,14 @@ async def call_tool(name: str, arguments: Any) -> list[TextContent]:
                 response.raise_for_status()
                 data = response.json()
 
-                return [
-                    TextContent(
-                        type="text", text=json.dumps(data, indent=2, ensure_ascii=False)
-                    )
-                ]
+                return [TextContent(type="text", text=json.dumps(data, indent=2, ensure_ascii=False))]
 
             elif name == "get_api_stats":
                 log("Fetching API statistics")
 
                 # Get counts from both endpoints
                 lands_response = await client.get("/api/v1/lands/", params={"page": 1})
-                communities_response = await client.get(
-                    "/api/v1/communities/", params={"page": 1}
-                )
+                communities_response = await client.get("/api/v1/communities/", params={"page": 1})
 
                 lands_response.raise_for_status()
                 communities_response.raise_for_status()
@@ -474,9 +462,7 @@ async def run_http():
     log(f"SSE endpoint: http://{MCP_HOST}:{MCP_PORT}/sse")
     log(f"Messages endpoint: http://{MCP_HOST}:{MCP_PORT}/messages")
 
-    config = uvicorn.Config(
-        create_app(), host=MCP_HOST, port=MCP_PORT, log_level="info"
-    )
+    config = uvicorn.Config(create_app(), host=MCP_HOST, port=MCP_PORT, log_level="info")
     server = uvicorn.Server(config)
     await server.serve()
 

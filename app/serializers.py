@@ -15,9 +15,7 @@ class StateSerializer(serializers.ModelSerializer):
     """Serializer for State model."""
 
     country = CountrySerializer(read_only=True)
-    country_id = serializers.PrimaryKeyRelatedField(
-        queryset=Country.objects.all(), source="country", write_only=True
-    )
+    country_id = serializers.PrimaryKeyRelatedField(queryset=Country.objects.all(), source="country", write_only=True)
 
     class Meta:
         model = State
@@ -28,9 +26,7 @@ class MunicipalitySerializer(serializers.ModelSerializer):
     """Serializer for Municipality model."""
 
     state = StateSerializer(read_only=True)
-    state_id = serializers.PrimaryKeyRelatedField(
-        queryset=State.objects.all(), source="state", write_only=True
-    )
+    state_id = serializers.PrimaryKeyRelatedField(queryset=State.objects.all(), source="state", write_only=True)
 
     class Meta:
         model = Municipality
@@ -41,9 +37,7 @@ class BiomeSerializer(serializers.ModelSerializer):
     """Serializer for Biome model."""
 
     country = CountrySerializer(read_only=True)
-    country_id = serializers.PrimaryKeyRelatedField(
-        queryset=Country.objects.all(), source="country", write_only=True
-    )
+    country_id = serializers.PrimaryKeyRelatedField(queryset=Country.objects.all(), source="country", write_only=True)
 
     class Meta:
         model = Biome
@@ -72,9 +66,7 @@ class LandSerializer(serializers.ModelSerializer):
     """Serializer for Land model."""
 
     biome = BiomeSerializer(read_only=True)
-    biome_id = serializers.PrimaryKeyRelatedField(
-        queryset=Biome.objects.all(), source="biome", write_only=True
-    )
+    biome_id = serializers.PrimaryKeyRelatedField(queryset=Biome.objects.all(), source="biome", write_only=True)
     communities = CommunitySerializer(many=True, read_only=True)
     communities_ids = serializers.PrimaryKeyRelatedField(
         queryset=Community.objects.all(),
@@ -110,21 +102,21 @@ class LandSerializer(serializers.ModelSerializer):
         location = {}
 
         # Use annotated fields if available (for better performance)
-        if hasattr(obj, 'municipality_name'):
-            location['municipality'] = obj.municipality_name
-            location['state'] = obj.state_name
-            location['state_code'] = obj.state_code
-            location['country'] = obj.country_name
-            location['country_code'] = obj.country_code
+        if hasattr(obj, "municipality_name"):
+            location["municipality"] = obj.municipality_name
+            location["state"] = obj.state_name
+            location["state_code"] = obj.state_code
+            location["country"] = obj.country_name
+            location["country_code"] = obj.country_code
         # Fallback to related objects if annotations not available
         elif obj.municipality:
-            location['municipality'] = obj.municipality.name
+            location["municipality"] = obj.municipality.name
             if obj.municipality.state:
-                location['state'] = obj.municipality.state.name
-                location['state_code'] = obj.municipality.state.code
+                location["state"] = obj.municipality.state.name
+                location["state_code"] = obj.municipality.state.code
                 if obj.municipality.state.country:
-                    location['country'] = obj.municipality.state.country.name
-                    location['country_code'] = obj.municipality.state.country.code
+                    location["country"] = obj.municipality.state.country.name
+                    location["country_code"] = obj.municipality.state.country.code
 
         return location if location else None
 

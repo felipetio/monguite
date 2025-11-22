@@ -6,17 +6,17 @@ Django app for managing Brazilian indigenous land data.
 
 ```bash
 # Install dependencies
-poetry install
+uv sync
 
 # Start database services
 docker compose up -d
 
 # Run migrations and load data
-poetry run python manage.py migrate
-poetry run python manage.py loaddata fixtures.json
+uv run python manage.py migrate
+uv run python manage.py loaddata fixtures.json
 
 # Start the server
-poetry run python manage.py runserver
+uv run python manage.py runserver
 ```
 
 Visit http://localhost:8000/admin
@@ -41,12 +41,12 @@ Default login: `admin` / `admin`
 
 ```bash
 # Tests
-pytest
+uv run pytest
 
 # Code quality
-black .
-isort .
-flake8
+uv run black .
+uv run isort .
+uv run flake8
 ```
 
 ## License
