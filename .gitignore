@@ -130,3 +130,6 @@ dmypy.json
 
 # Claude
 .claude/
+.specify/
+specs/
+.serena/

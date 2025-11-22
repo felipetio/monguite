@@ -1,0 +1,14 @@
+# Gitleaks configuration for detecting hardcoded secrets
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Allowlisted files and patterns"
+paths = [
+    '''.env.example''',
+]
+
+# Allow common test/example patterns
+regexes = [
+    '''(?i)(password|secret|key|token).*=.*(test|example|dummy)''',
+]

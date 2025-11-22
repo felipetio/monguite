@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import Country, State, Biome, Land, Municipality, Community
+from .models import Biome, Community, Country, Land, Municipality, State
 
 
 @admin.register(Country)
@@ -36,15 +36,22 @@ class BiomeAdmin(admin.ModelAdmin):
     list_filter = ("country",)
     ordering = ("name",)
 
+    @admin.display(description="Lands Count")
     def lands_count(self, obj):
         return obj.lands.count()
-
-    lands_count.short_description = "Lands Count"
 
 
 @admin.register(Land)
 class LandAdmin(admin.ModelAdmin):
-    list_display = ("name", "municipality", "biome", "category", "communities_list", "source_name", "isa_link")
+    list_display = (
+        "name",
+        "municipality",
+        "biome",
+        "category",
+        "communities_list",
+        "source_name",
+        "isa_link",
+    )
     list_filter = ("biome", "category", "source_name")
     search_fields = ("name", "source_id")
     autocomplete_fields = ("communities",)
@@ -57,22 +64,17 @@ class LandAdmin(admin.ModelAdmin):
         "source_raw_data",
     )
 
+    @admin.display(description="Communities")
     def communities_list(self, obj):
         """Display comma-separated list of communities"""
         return ", ".join([c.name for c in obj.communities.all()])
 
-    communities_list.short_description = "Communities"
-
+    @admin.display(description="External link")
     def isa_link(self, obj):
         if not obj.source_id or obj.source_name != "ISA":
             return None
         isa_url = "https://terrasindigenas.org.br/en/terras-indigenas/"
-        return format_html(
-            "<a href='%s%s' target='_blank'>source link</a>" % (isa_url, obj.source_id)
-        )
-
-    isa_link.allow_tags = True
-    isa_link.short_description = "External link"
+        return format_html(f"<a href='{isa_url}{obj.source_id}' target='_blank'>source link</a>")
 
 
 @admin.register(Community)
@@ -82,7 +84,6 @@ class CommunityAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     ordering = ("name",)
 
+    @admin.display(description="Lands Count")
     def lands_count(self, obj):
         return obj.lands.count()
-
-    lands_count.short_description = "Lands Count"

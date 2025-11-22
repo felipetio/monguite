@@ -2,7 +2,7 @@ import json
 import tempfile
 from io import StringIO
 from pathlib import Path
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -19,7 +19,7 @@ class LoadISADataCommandTest(TestCase):
         """Set up test data"""
         # Load the sample ISA data from fixtures
         self.sample_data_path = Path(__file__).parent / "fixtures" / "sample_isa_data.json"
-        with open(self.sample_data_path, "r", encoding="utf-8") as f:
+        with open(self.sample_data_path, encoding="utf-8") as f:
             self.sample_data = json.load(f)
 
     def test_basic_import(self):

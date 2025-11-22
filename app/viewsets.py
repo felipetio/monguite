@@ -1,4 +1,5 @@
 from django.db.models import Count, F
+
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import viewsets
 
@@ -47,9 +48,7 @@ class LandViewSet(viewsets.ReadOnlyModelViewSet):
         This improves performance by avoiding N+1 queries.
         """
         return (
-            Land.objects.select_related(
-                "municipality__state__country", "biome__country"
-            )
+            Land.objects.select_related("municipality__state__country", "biome__country")
             .prefetch_related("communities")
             .annotate(
                 municipality_name=F("municipality__name"),
@@ -94,6 +93,4 @@ class CommunityViewSet(viewsets.ReadOnlyModelViewSet):
         Return queryset with annotations for counts.
         This improves performance by avoiding N+1 queries.
         """
-        return Community.objects.annotate(
-            lands_count=Count("lands", distinct=True)
-        )
+        return Community.objects.annotate(lands_count=Count("lands", distinct=True))

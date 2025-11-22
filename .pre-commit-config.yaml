@@ -1,9 +1,13 @@
+default_language_version:
+  node: system
+  python: python3.13
+
 exclude: 'docs|node_modules|migrations|.git|.tox'
-default_stages: [push]
+default_stages: [commit, push]
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.2.0
+    rev: v5.0.0
     hooks:
       - id: check-added-large-files
         args: ['--maxkb=500']
@@ -18,21 +22,27 @@ repos:
       - id: end-of-file-fixer
       - id: check-yaml
 
-  - repo: https://github.com/psf/black
-    rev: 20.8b1
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.11.6
     hooks:
-      - id: black
-        entry: black --fast --check
+      - id: ruff
+        args: [--output-file, .ruff-report.txt, --output-format, concise]
+      - id: ruff-format
 
-  - repo: https://github.com/timothycrosley/isort
-    rev: 5.6.4
+  - repo: https://github.com/jumanjihouse/pre-commit-hooks
+    rev: 3.0.0
     hooks:
-      - id: isort
-        entry: isort -c --check-only
+      - id: shellcheck
 
-  - repo: https://gitlab.com/pycqa/flake8
-    rev: 3.8.4
+  - repo: https://github.com/adamchainz/django-upgrade
+    rev: '1.24.0'
     hooks:
-      - id: flake8
-        args: ['--config=setup.cfg']
-        additional_dependencies: [flake8-isort]
+      - id: django-upgrade
+        args: [--target-version, '4.2']
+
+  - repo: https://github.com/zricethezav/gitleaks
+    rev: v8.24.3
+    hooks:
+      - id: gitleaks
+        entry: bash -c 'for file in "$@"; do gitleaks detect --no-git --verbose --redact --source $file --config .gitleaks.toml; done'
+        pass_filenames: true

@@ -32,9 +32,7 @@ class Municipality(models.Model):
     name = models.CharField(max_length=200)
     name_local = models.CharField(max_length=200, null=True, blank=True)
     code = models.CharField(max_length=10)
-    state = models.ForeignKey(
-        State, on_delete=models.CASCADE, related_name="municipalities"
-    )
+    state = models.ForeignKey(State, on_delete=models.CASCADE, related_name="municipalities")
 
     class Meta:
         verbose_name_plural = "Municipalities"
@@ -71,13 +69,9 @@ class Land(models.Model):
         null=True,
         blank=True,
     )
-    biome = models.ForeignKey(
-        Biome, on_delete=models.CASCADE, related_name="lands", null=True, blank=True
-    )
+    biome = models.ForeignKey(Biome, on_delete=models.CASCADE, related_name="lands", null=True, blank=True)
     category = models.CharField(max_length=200, choices=CATEGORY_CHOICES)
-    communities = models.ManyToManyField(
-        "Community", related_name="lands", blank=True
-    )
+    communities = models.ManyToManyField("Community", related_name="lands", blank=True)
 
     # Fields for data integration
     source_id = models.CharField(max_length=100, null=True, blank=True, db_index=True)
