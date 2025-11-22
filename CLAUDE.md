@@ -36,42 +36,41 @@ Refer to these documents when you need detailed information about specific aspec
 
 ```bash
 # Testing
-pytest                          # Run all tests
-pytest app/tests/test_*.py      # Run specific test file
-pytest -k test_name             # Run specific test by name
-pytest --cov=app                # Run with coverage report
+uv run pytest                          # Run all tests
+uv run pytest app/tests/test_*.py      # Run specific test file
+uv run pytest -k test_name             # Run specific test by name
+uv run pytest --cov=app                # Run with coverage report
 
 # Linting & Formatting
-black .                         # Format Python code
-isort .                         # Sort imports
-flake8                          # Check linting issues
-pre-commit run                  # Run all pre-commit hooks
-pre-commit run --all-files      # Run on entire codebase
+uv run ruff check .                    # Check for linting issues
+uv run ruff format .                   # Format Python code
+uv run ruff check --fix .              # Auto-fix linting issues
+uv run pre-commit run                  # Run all pre-commit hooks
+uv run pre-commit run --all-files      # Run on entire codebase
 
 # Development Server
-python manage.py runserver      # Django server (port 8000)
+uv run python manage.py runserver      # Django server (port 8000)
 
 # Django Shell
-python manage.py shell_plus     # Interactive shell with models loaded
+uv run python manage.py shell_plus     # Interactive shell with models loaded
 ```
 
 ### Setup & Build Commands
 
 ```bash
 # Initial Setup
-poetry install                  # Install Python dependencies
-poetry shell                    # Activate virtual environment
+uv sync                         # Install Python dependencies
 cp .env.example .env           # Create environment file
 # Edit .env to set SECRET_KEY, DATABASE_URL, and REDIS_URL
 
 # Database Operations
-python manage.py migrate        # Run database migrations
-python manage.py makemigrations # Create new migrations
-python manage.py loaddata fixtures.json  # Load sample data
-python manage.py createsuperuser         # Create admin user
+uv run python manage.py migrate        # Run database migrations
+uv run python manage.py makemigrations # Create new migrations
+uv run python manage.py loaddata fixtures.json  # Load sample data
+uv run python manage.py createsuperuser         # Create admin user
 
 # Data Management
-python manage.py load_isa_data  # Import ISA data
+uv run python manage.py load_isa_data  # Import ISA data
 
 # Docker Services
 docker-compose up -d            # Start PostgreSQL and Redis
@@ -93,25 +92,24 @@ We use Python 3.10+. Take advantage of modern features:
 ### IF modifying Python files:
 
 ```
-1. Check/write tests → pytest app/tests/test_*.py
+1. Check/write tests → uv run pytest app/tests/test_*.py
 2. Make code changes
-3. Run tests → pytest
-4. Format code → black . && isort .
-5. Fix linting → flake8
-6. Validate → pre-commit run
-7. Commit atomically
+3. Run tests → uv run pytest
+4. Format & lint → uv run ruff format . && uv run ruff check --fix .
+5. Validate → uv run pre-commit run
+6. Commit atomically
 ```
 
 ### IF modifying models:
 
 ```
 1. Update model in app/models.py
-2. Create migration → python manage.py makemigrations
+2. Create migration → uv run python manage.py makemigrations
 3. Review migration file
-4. Apply migration → python manage.py migrate
+4. Apply migration → uv run python manage.py migrate
 5. Update tests
-6. Run tests → pytest
-7. Format & lint → black . && isort . && flake8
+6. Run tests → uv run pytest
+7. Format & lint → uv run ruff format . && uv run ruff check --fix .
 8. Commit atomically
 ```
 
@@ -207,8 +205,9 @@ For detailed coding standards, see [docs/CONVENTIONS_BACKEND.md](docs/CONVENTION
 **Quick Reference:**
 
 - **Max line length**: 120 characters
-- **Import order**: stdlib → django → third-party → local (enforced by isort)
+- **Import order**: stdlib → django → third-party → local (enforced by ruff)
 - **Excluded from linting**: migrations, static, docs, node_modules, venv
+- **Linting rules**: pycodestyle, pyflakes, isort, flake8-bugbear, flake8-comprehensions, pyupgrade, flake8-django
 
 ## Django Admin Customization
 
@@ -272,11 +271,10 @@ python manage.py loaddata fixtures.json
 
 ```bash
 # Format code
-black .
-isort .
+ruff format .
 
-# Check for issues
-flake8
+# Check and fix linting issues
+ruff check --fix .
 
 # Run all pre-commit hooks
 pre-commit run --all-files

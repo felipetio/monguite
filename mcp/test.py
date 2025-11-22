@@ -50,9 +50,7 @@ async def test_mcp_server():
     except Exception as e:
         print(f"✗ Error getting stats: {e}")
         print("  Make sure Monguite API is running at the configured URL")
-        print(
-            f"  Current URL: {os.getenv('MONGUITE_API_URL', 'http://localhost:8000')}\n"
-        )
+        print(f"  Current URL: {os.getenv('MONGUITE_API_URL', 'http://localhost:8000')}\n")
         return False
 
     # Test 3: Search lands (simple query)
