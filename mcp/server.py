@@ -12,7 +12,8 @@ from typing import Any
 
 import httpx
 from starlette.applications import Starlette
-from starlette.responses import Response
+from starlette.requests import Request
+from starlette.responses import JSONResponse, Response
 from starlette.routing import Route
 
 from mcp.server import Server
@@ -25,6 +26,7 @@ API_TOKEN = os.getenv("MONGUITE_API_TOKEN", "")
 MCP_HOST = os.getenv("MCP_HOST", "0.0.0.0")
 MCP_PORT = int(os.getenv("MCP_PORT", "3000"))
 MCP_TRANSPORT = os.getenv("MCP_TRANSPORT", "stdio")  # stdio or http
+MCP_API_KEY = os.getenv("MCP_API_KEY", "")  # API key for HTTP authentication
 
 # Initialize MCP server
 app = Server("monguite-api")
@@ -41,9 +43,13 @@ def validate_config():
         log("ERROR: MONGUITE_API_URL not set")
         sys.exit(1)
 
+    if MCP_TRANSPORT.lower() == "http" and not MCP_API_KEY:
+        log("WARNING: MCP_API_KEY not set - API will be unauthenticated!")
+
     log("Configuration loaded:")
     log(f"  API URL: {API_BASE_URL}")
     log(f"  API Token: {'Set' if API_TOKEN else 'Not set'}")
+    log(f"  MCP API Key: {'Set' if MCP_API_KEY else 'Not set'}")
 
 
 async def get_client() -> httpx.AsyncClient:
@@ -340,7 +346,7 @@ async def call_tool(name: str, arguments: Any) -> list[TextContent]:
             try:
                 error_json = e.response.json()
                 error_detail = json.dumps(error_json, indent=2, ensure_ascii=False)
-            except:
+            except Exception:
                 pass
 
             return [
@@ -354,8 +360,57 @@ async def call_tool(name: str, arguments: Any) -> list[TextContent]:
             return [TextContent(type="text", text=f"Error: {str(e)}")]
 
 
-async def handle_sse(request):
+def verify_api_key(request: Request) -> bool:
+    """Verify API key from Authorization header."""
+    if not MCP_API_KEY:
+        # If no API key is configured, allow all requests (for local dev)
+        return True
+
+    auth_header = request.headers.get("Authorization", "")
+    if not auth_header.startswith("Bearer "):
+        return False
+
+    token = auth_header[7:]  # Remove "Bearer " prefix
+    return token == MCP_API_KEY
+
+
+async def handle_health(request: Request):
+    """Health check endpoint."""
+    # Test Django API connectivity
+    api_status = "disconnected"
+    api_error = None
+
+    try:
+        async with await get_client() as client:
+            response = await client.get("/api/v1/lands/", params={"page": 1})
+            response.raise_for_status()
+            api_status = "connected"
+    except Exception as e:
+        api_error = str(e)
+
+    health_data = {
+        "status": "healthy" if api_status == "connected" else "degraded",
+        "mcp_server": "running",
+        "django_api": api_status,
+        "api_url": API_BASE_URL,
+    }
+
+    if api_error:
+        health_data["api_error"] = api_error
+
+    status_code = 200 if api_status == "connected" else 503
+    return JSONResponse(health_data, status_code=status_code)
+
+
+async def handle_sse(request: Request):
     """Handle SSE connections for MCP protocol."""
+    # Verify API key
+    if not verify_api_key(request):
+        return JSONResponse(
+            {"error": "Unauthorized", "message": "Invalid or missing API key"},
+            status_code=401,
+        )
+
     sse = SseServerTransport("/messages")
 
     async with sse.connect_sse(request.scope, request.receive, request._send) as (
@@ -367,8 +422,15 @@ async def handle_sse(request):
     return Response()
 
 
-async def handle_messages(request):
+async def handle_messages(request: Request):
     """Handle POST messages from client."""
+    # Verify API key
+    if not verify_api_key(request):
+        return JSONResponse(
+            {"error": "Unauthorized", "message": "Invalid or missing API key"},
+            status_code=401,
+        )
+
     sse = SseServerTransport("/messages")
 
     async with sse.connect_post(request.scope, request.receive, request._send) as (
@@ -386,6 +448,7 @@ def create_app():
 
     return Starlette(
         routes=[
+            Route("/health", endpoint=handle_health, methods=["GET"]),
             Route("/sse", endpoint=handle_sse),
             Route("/messages", endpoint=handle_messages, methods=["POST"]),
         ]

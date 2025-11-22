@@ -7,11 +7,11 @@ MCP (Model Context Protocol) server for accessing Monguite indigenous land data 
 This MCP server exposes the Monguite REST API through the Model Context Protocol, allowing AI assistants like Claude to query indigenous land data.
 
 
-## Current Setup
+## Installation
 
 ```bash
-# install mcp dependencies
-poetry install --with=mcp
+# Install all dependencies (including MCP server dependencies)
+poetry install
 ```
 
 The MCP server supports **two transport modes**: stdio (default) and HTTP.
@@ -75,13 +75,24 @@ MCP_TRANSPORT=http MCP_HOST=127.0.0.1 MCP_PORT=8080 poetry run python mcp/server
 **Environment Variables:**
 - `MCP_TRANSPORT`: Transport mode - `stdio` (default) or `http`
 - `MONGUITE_API_URL`: URL of the Monguite API (default: `http://localhost:8000`)
-- `MONGUITE_API_TOKEN`: Optional API token for authentication
+- `MONGUITE_API_TOKEN`: Optional API token for Django API authentication
 - `MCP_HOST`: Host to bind the MCP server (default: `0.0.0.0`) - HTTP mode only
 - `MCP_PORT`: Port to bind the MCP server (default: `3000`) - HTTP mode only
+- `MCP_API_KEY`: API key for authenticating MCP HTTP requests (required for production)
 
 **HTTP Endpoints:**
-- `GET /sse` - SSE endpoint for MCP protocol communication
-- `POST /messages` - HTTP endpoint for posting messages
+- `GET /health` - Health check endpoint (returns server and Django API status)
+- `GET /sse` - SSE endpoint for MCP protocol communication (requires authentication)
+- `POST /messages` - HTTP endpoint for posting messages (requires authentication)
+
+**Authentication:**
+
+When `MCP_API_KEY` is set, all requests to `/sse` and `/messages` must include:
+```
+Authorization: Bearer your-api-key-here
+```
+
+The `/health` endpoint is always accessible without authentication.
 
 
 ## Testing
@@ -135,10 +146,157 @@ Once set up, users can ask Claude:
 "Get details about land with ID xyz"
 ```
 
+## Deployment
+
+### Production Deployment (Heroku, Railway, Render)
+
+The project includes a `Procfile` for deploying both Django and MCP server together:
+
+```
+web: gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
+mcp: MCP_TRANSPORT=http MCP_PORT=3000 python mcp/server.py
+```
+
+**Required Environment Variables:**
+
+Copy `.env.production.example` and configure:
+
+```bash
+# Django
+SECRET_KEY=your-secret-key
+DEBUG=False
+DATABASE_URL=postgresql://...
+REDIS_URL=redis://...
+ALLOWED_HOSTS=your-domain.com
+
+# MCP Server
+MCP_TRANSPORT=http
+MCP_API_KEY=your-secure-api-key-here
+MONGUITE_API_URL=http://localhost:8000
+```
+
+**Deployment Steps:**
+
+1. **Railway/Render:**
+   ```bash
+   # Push to your git repository
+   git push origin main
+
+   # Platform will auto-detect Procfile and deploy both services
+   ```
+
+2. **Heroku:**
+   ```bash
+   heroku create your-app-name
+   heroku addons:create heroku-postgresql
+   heroku addons:create heroku-redis
+
+   # Set environment variables
+   heroku config:set SECRET_KEY=your-secret-key
+   heroku config:set MCP_API_KEY=your-mcp-api-key
+   heroku config:set MCP_TRANSPORT=http
+
+   # Deploy
+   git push heroku main
+
+   # Run migrations
+   heroku run python manage.py migrate
+   ```
+
+3. **Health Check:**
+   ```bash
+   curl https://your-app.railway.app/health
+   ```
+
+### n8n Integration
+
+The MCP server can be integrated with n8n workflows to enable AI-powered data queries during bot conversations.
+
+**Setup Steps:**
+
+1. **Deploy the MCP server** using the deployment instructions above
+
+2. **Configure n8n MCP Client:**
+
+   In your n8n workflow, use the HTTP Request node or a custom MCP client node:
+
+   ```javascript
+   // Example: Connect to MCP SSE endpoint
+   const mcpEndpoint = 'https://your-app.railway.app/sse';
+   const apiKey = 'your-mcp-api-key';
+
+   // Add Authorization header
+   headers: {
+     'Authorization': `Bearer ${apiKey}`
+   }
+   ```
+
+3. **Use MCP Tools in n8n:**
+
+   The MCP server exposes 5 tools that can be called from n8n workflows:
+   - `search_lands` - Search indigenous lands
+   - `get_land_details` - Get land details
+   - `search_communities` - Search communities
+   - `get_community_details` - Get community details
+   - `get_api_stats` - Get database statistics
+
+**Example n8n Workflow:**
+
+```
+User Message → AI Agent → MCP Tool Call → Monguite API → Response
+```
+
+**Testing the Connection:**
+
+```bash
+# Test health endpoint (no auth required)
+curl https://your-app.railway.app/health
+
+# Test SSE endpoint (requires auth)
+curl -H "Authorization: Bearer your-api-key" \
+     https://your-app.railway.app/sse
+```
+
+**Security Notes:**
+- Always use HTTPS in production
+- Keep `MCP_API_KEY` secret and rotate regularly
+- Use environment variables in n8n for API keys
+- Monitor the `/health` endpoint for service status
+
 ## Troubleshooting
+
+### Local Development
 
 See the logs in Claude Desktop:
 - macOS: `~/Library/Logs/Claude/mcp*.log`
 - Check for JSON parse errors (means something printed to stdout)
 - Check for connection errors (API not running)
 - Check for import errors (missing dependencies)
+
+### Production Deployment
+
+**Health Check Failing:**
+```bash
+# Check if Django API is accessible
+curl http://localhost:8000/api/v1/lands/
+
+# Check MCP server logs
+heroku logs --tail -a your-app-name
+# or
+railway logs
+```
+
+**Authentication Issues:**
+```bash
+# Verify API key is set
+echo $MCP_API_KEY
+
+# Test with correct header
+curl -H "Authorization: Bearer $MCP_API_KEY" \
+     https://your-app.railway.app/sse
+```
+
+**Connection Refused:**
+- Ensure both `web` and `mcp` processes are running
+- Check that `MONGUITE_API_URL` points to the correct Django server
+- Verify firewall/security group settings allow internal communication
