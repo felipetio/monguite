@@ -2,12 +2,15 @@
 """
 Test MCP server authentication and endpoints.
 """
+
 import asyncio
 import os
 
 import httpx
+import pytest
 
 
+@pytest.mark.asyncio
 async def test_health_endpoint():
     """Test health check endpoint (no auth required)."""
     print("\n=== Testing Health Endpoint ===")
@@ -26,6 +29,7 @@ async def test_health_endpoint():
             print(f"✗ Error: {e}")
 
 
+@pytest.mark.asyncio
 async def test_sse_without_auth():
     """Test SSE endpoint without authentication (should fail if API key is set)."""
     print("\n=== Testing SSE Endpoint Without Auth ===")
@@ -48,6 +52,7 @@ async def test_sse_without_auth():
             print(f"✗ Error: {e}")
 
 
+@pytest.mark.asyncio
 async def test_sse_with_invalid_auth():
     """Test SSE endpoint with invalid authentication."""
     print("\n=== Testing SSE Endpoint With Invalid Auth ===")
@@ -73,6 +78,7 @@ async def test_sse_with_invalid_auth():
             print(f"✗ Error: {e}")
 
 
+@pytest.mark.asyncio
 async def test_sse_with_valid_auth():
     """Test SSE endpoint with valid authentication."""
     print("\n=== Testing SSE Endpoint With Valid Auth ===")
@@ -88,9 +94,7 @@ async def test_sse_with_valid_auth():
     async with httpx.AsyncClient() as client:
         try:
             # SSE endpoint will hang waiting for events, so we use a short timeout
-            response = await client.get(
-                "http://localhost:3000/sse", headers=headers, timeout=2.0
-            )
+            response = await client.get("http://localhost:3000/sse", headers=headers, timeout=2.0)
             print(f"Status: {response.status_code}")
 
             if response.status_code == 200:
@@ -99,13 +103,12 @@ async def test_sse_with_valid_auth():
                 print(f"✗ Unexpected status code: {response.status_code}")
         except httpx.ReadTimeout:
             # This is expected for SSE - connection established but no events sent
-            print(
-                "✓ Successfully authenticated (connection timeout is expected for SSE)"
-            )
+            print("✓ Successfully authenticated (connection timeout is expected for SSE)")
         except Exception as e:
             print(f"✗ Error: {e}")
 
 
+@pytest.mark.asyncio
 async def test_messages_without_auth():
     """Test messages endpoint without authentication."""
     print("\n=== Testing Messages Endpoint Without Auth ===")
