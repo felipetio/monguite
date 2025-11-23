@@ -867,8 +867,6 @@ dependencies = [
     { name = "drf-spectacular" },
     { name = "gunicorn" },
     { name = "psycopg2-binary" },
-    { name = "pytest" },
-    { name = "pytest-cov" },
     { name = "requests" },
 ]
 
@@ -882,7 +880,9 @@ dev = [
     { name = "ipdb" },
     { name = "pre-commit" },
     { name = "pylint-django" },
+    { name = "pytest" },
     { name = "pytest-asyncio" },
+    { name = "pytest-cov" },
     { name = "pytest-django" },
     { name = "ruff" },
     { name = "werkzeug" },
@@ -906,8 +906,6 @@ requires-dist = [
     { name = "drf-spectacular", specifier = ">=0.29.0,<0.30" },
     { name = "gunicorn", specifier = ">=23.0.0,<24" },
     { name = "psycopg2-binary", specifier = ">=2.9.9,<3" },
-    { name = "pytest", specifier = ">=8.4.2" },
-    { name = "pytest-cov", specifier = ">=7.0.0" },
     { name = "requests", specifier = ">=2.32.0,<3" },
 ]
 
@@ -921,7 +919,9 @@ dev = [
     { name = "ipdb", specifier = ">=0.13.13,<0.14" },
     { name = "pre-commit", specifier = ">=3.8.0,<4" },
     { name = "pylint-django", specifier = ">=2.5.5,<3" },
+    { name = "pytest", specifier = ">=8.4.2" },
     { name = "pytest-asyncio", specifier = ">=0.25.2,<0.26" },
+    { name = "pytest-cov", specifier = ">=7.0.0" },
     { name = "pytest-django", specifier = ">=4.9.0,<5" },
     { name = "ruff", specifier = ">=0.11.6,<0.12" },
     { name = "werkzeug", specifier = ">=3.0.4,<4" },
