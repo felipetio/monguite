@@ -38,6 +38,7 @@ mcp = [
     "pydantic>=2.0.0,<3",
     "starlette>=0.50.0,<0.51",
     "uvicorn>=0.38.0,<0.39",
+    "python-dotenv>=1.0.0,<2",
 ]
 
 [tool.uv]
@@ -86,6 +87,12 @@ ignore = [
     "DJ012", # method ordering - __str__ after save is acceptable
     "E722",  # bare except - acceptable in specific error handling cases
     "B017",  # assertRaises(Exception) - acceptable in tests for general error catching
+]
+
+[tool.ruff.lint.per-file-ignores]
+"config/settings/*.py" = [
+    "F403",  # star imports are standard for Django settings modules
+    "F405",  # names from star imports are intentional in settings
 ]
 
 [tool.ruff.lint.isort]
