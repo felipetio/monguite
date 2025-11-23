@@ -5,6 +5,3 @@ set -e
 
 # Collect static files for the Django application
 uv run python manage.py collectstatic --noinput
-
-# Apply database migrations
-uv run python manage.py migrate --noinput
