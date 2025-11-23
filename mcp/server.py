@@ -8,9 +8,11 @@ import asyncio
 import json
 import os
 import sys
+from pathlib import Path
 from typing import Any
 
 import httpx
+from dotenv import load_dotenv
 from starlette.applications import Starlette
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
@@ -20,13 +22,18 @@ from mcp.server import Server
 from mcp.server.sse import SseServerTransport
 from mcp.types import TextContent, Tool
 
+# Load environment variables from .env file
+# Look for .env in the project root (parent of mcp directory)
+env_path = Path(__file__).parent.parent / ".env"
+load_dotenv(env_path)
+
 # Environment configuration
-API_BASE_URL = os.getenv("MONGUITE_API_URL", "http://localhost:8000")
-API_TOKEN = os.getenv("MONGUITE_API_TOKEN", "")
+API_BASE_URL = os.getenv("MONGUITE_API_URL")
+API_TOKEN = os.getenv("MONGUITE_API_TOKEN")
 MCP_HOST = os.getenv("MCP_HOST", "0.0.0.0")
-MCP_PORT = int(os.getenv("MCP_PORT", "3000"))
+MCP_PORT = int(os.getenv("MCP_PORT", "8001"))
 MCP_TRANSPORT = os.getenv("MCP_TRANSPORT", "stdio")  # stdio or http
-MCP_API_KEY = os.getenv("MCP_API_KEY", "")  # API key for HTTP authentication
+MCP_API_KEY = os.getenv("MCP_API_KEY")  # API key for HTTP authentication
 
 # Initialize MCP server
 app = Server("monguite-api")
