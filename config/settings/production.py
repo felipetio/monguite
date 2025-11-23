@@ -15,11 +15,15 @@ DEBUG = False
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 
 # If Railway environment is detected, add Railway domains
-if env.bool("RAILWAY_ENVIRONMENT", default=False):
+if env.bool("RAILWAY_ENVIRONMENT_NAME", default=False):
     # Railway provides RAILWAY_PUBLIC_DOMAIN and RAILWAY_PRIVATE_DOMAIN
     railway_domain = env("RAILWAY_PUBLIC_DOMAIN", default=None)
     if railway_domain:
         ALLOWED_HOSTS.append(railway_domain)
+
+    railway_private_domain = env("RAILWAY_PRIVATE_DOMAIN", default=None)
+    if railway_private_domain:
+        ALLOWED_HOSTS.append(railway_private_domain)
 
 # Security settings for production
 # https://docs.djangoproject.com/en/dev/ref/settings/#secure-ssl-redirect
