@@ -15,7 +15,7 @@ DEBUG = False
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 
 # If Railway environment is detected, add Railway domains
-if env.bool("RAILWAY_ENVIRONMENT_NAME", default=False):
+if env("RAILWAY_ENVIRONMENT_NAME", default=None):
     # Railway provides RAILWAY_PUBLIC_DOMAIN and RAILWAY_PRIVATE_DOMAIN
     railway_domain = env("RAILWAY_PUBLIC_DOMAIN", default=None)
     if railway_domain:
