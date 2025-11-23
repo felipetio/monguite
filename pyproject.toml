@@ -15,6 +15,7 @@ dependencies = [
     "django-filter>=25.2,<26",
     "drf-spectacular>=0.29.0,<0.30",
     "gunicorn>=23.0.0,<24",
+    "django-extensions>=3.2.3,<4",
 ]
 
 [dependency-groups]
@@ -27,7 +28,6 @@ dev = [
     "pre-commit>=3.8.0,<4",
     "factory-boy>=3.3.1,<4",
     "django-debug-toolbar>=4.4.6,<5",
-    "django-extensions>=3.2.3,<4",
     "django-coverage-plugin>=3.1.0,<4",
     "pytest-django>=4.9.0,<5",
     "pytest-asyncio>=0.25.2,<0.26",
