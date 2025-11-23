@@ -19,10 +19,6 @@ PASSWORD_HASHERS = [
 
 # Use faster test database settings
 DATABASES["default"]["CONN_MAX_AGE"] = 0
-DATABASES["default"]["OPTIONS"] = {
-    # Speed up tests - acceptable for CI where data loss is not a concern
-    "options": "-c fsync=off -c synchronous_commit=off -c full_page_writes=off",
-}
 
 # Disable migrations for faster test runs (handled by pytest-django --reuse-db flag)
 # Tests should use --nomigrations flag
