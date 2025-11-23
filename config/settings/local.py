@@ -14,7 +14,6 @@ ALLOWED_HOSTS = ["*"]
 
 # Development apps - these require dev dependencies
 INSTALLED_APPS += [
-    "django_extensions",
     "debug_toolbar",
 ]
 
