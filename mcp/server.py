@@ -8,12 +8,10 @@ import asyncio
 import json
 import os
 import sys
-from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
 import httpx
-import jwt
 from dotenv import load_dotenv
 from starlette.applications import Starlette
 from starlette.requests import Request
@@ -35,14 +33,7 @@ API_TOKEN = os.getenv("MONGUITE_API_TOKEN")
 MCP_HOST = os.getenv("MCP_HOST", "0.0.0.0")
 MCP_PORT = int(os.getenv("MCP_PORT", "8001"))
 MCP_TRANSPORT = os.getenv("MCP_TRANSPORT", "stdio")  # stdio or http
-MCP_API_KEY = os.getenv("MCP_API_KEY")  # API key for HTTP authentication (legacy)
-
-# OAuth configuration
-OAUTH_ENABLED = os.getenv("OAUTH_ENABLED", "false").lower() == "true"
-OAUTH_CLIENT_ID = os.getenv("OAUTH_CLIENT_ID")
-OAUTH_CLIENT_SECRET = os.getenv("OAUTH_CLIENT_SECRET")
-OAUTH_JWT_SECRET = os.getenv("OAUTH_JWT_SECRET")  # Secret key for signing JWTs
-OAUTH_TOKEN_EXPIRY = int(os.getenv("OAUTH_TOKEN_EXPIRY", "3600"))  # Default 1 hour in seconds
+MCP_API_KEY = os.getenv("MCP_API_KEY")  # API key for HTTP authentication
 
 # Initialize MCP server
 app = Server("monguite-api")
@@ -59,24 +50,13 @@ def validate_config():
         log("ERROR: MONGUITE_API_URL not set")
         sys.exit(1)
 
-    if MCP_TRANSPORT.lower() == "http":
-        if OAUTH_ENABLED:
-            if not OAUTH_CLIENT_ID or not OAUTH_CLIENT_SECRET or not OAUTH_JWT_SECRET:
-                log("ERROR: OAuth enabled but credentials not properly configured!")
-                log("Required: OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_JWT_SECRET")
-                sys.exit(1)
-        elif not MCP_API_KEY:
-            log("WARNING: MCP_API_KEY not set - API will be unauthenticated!")
+    if MCP_TRANSPORT.lower() == "http" and not MCP_API_KEY:
+        log("WARNING: MCP_API_KEY not set - API will be unauthenticated!")
 
     log("Configuration loaded:")
     log(f"  API URL: {API_BASE_URL}")
     log(f"  API Token: {'Set' if API_TOKEN else 'Not set'}")
-    log(f"  OAuth Enabled: {OAUTH_ENABLED}")
-    if OAUTH_ENABLED:
-        log(f"  OAuth Client ID: {OAUTH_CLIENT_ID}")
-        log(f"  OAuth Token Expiry: {OAUTH_TOKEN_EXPIRY}s")
-    else:
-        log(f"  MCP API Key: {'Set' if MCP_API_KEY else 'Not set'}")
+    log(f"  MCP API Key: {'Set' if MCP_API_KEY else 'Not set'}")
 
 
 async def get_client() -> httpx.AsyncClient:
@@ -89,55 +69,6 @@ async def get_client() -> httpx.AsyncClient:
     transport = httpx.AsyncHTTPTransport(retries=3)
 
     return httpx.AsyncClient(base_url=API_BASE_URL, headers=headers, timeout=30.0, transport=transport)
-
-
-# OAuth helper functions
-def generate_access_token(client_id: str) -> dict[str, Any]:
-    """Generate a JWT access token for the given client."""
-    if not OAUTH_JWT_SECRET:
-        raise ValueError("OAUTH_JWT_SECRET not configured")
-
-    now = datetime.now(timezone.utc)
-    expiry = now + timedelta(seconds=OAUTH_TOKEN_EXPIRY)
-
-    payload = {
-        "sub": client_id,  # Subject (client identifier)
-        "iat": int(now.timestamp()),  # Issued at
-        "exp": int(expiry.timestamp()),  # Expiration time
-        "client_id": client_id,
-    }
-
-    token = jwt.encode(payload, OAUTH_JWT_SECRET, algorithm="HS256")
-
-    return {
-        "access_token": token,
-        "token_type": "Bearer",
-        "expires_in": OAUTH_TOKEN_EXPIRY,
-    }
-
-
-def validate_jwt_token(token: str) -> dict[str, Any] | None:
-    """Validate a JWT token and return its payload if valid."""
-    if not OAUTH_JWT_SECRET:
-        return None
-
-    try:
-        payload = jwt.decode(token, OAUTH_JWT_SECRET, algorithms=["HS256"])
-        return payload
-    except jwt.ExpiredSignatureError:
-        log("JWT token expired")
-        return None
-    except jwt.InvalidTokenError as e:
-        log(f"Invalid JWT token: {e}")
-        return None
-
-
-def verify_client_credentials(client_id: str, client_secret: str) -> bool:
-    """Verify OAuth client credentials."""
-    if not OAUTH_CLIENT_ID or not OAUTH_CLIENT_SECRET:
-        return False
-
-    return client_id == OAUTH_CLIENT_ID and client_secret == OAUTH_CLIENT_SECRET
 
 
 @app.list_tools()
@@ -425,106 +356,17 @@ async def call_tool(name: str, arguments: Any) -> list[TextContent]:
 
 
 def verify_api_key(request: Request) -> bool:
-    """
-    Verify authentication from Authorization header.
-    Supports both OAuth tokens (when enabled) and API keys (legacy).
-    """
+    """Verify API key from Authorization header."""
+    if not MCP_API_KEY:
+        # If no API key is configured, allow all requests (for local dev)
+        return True
+
     auth_header = request.headers.get("Authorization", "")
     if not auth_header.startswith("Bearer "):
-        # No authentication provided
-        if not OAUTH_ENABLED and not MCP_API_KEY:
-            # Allow unauthenticated access in development mode
-            return True
         return False
 
     token = auth_header[7:]  # Remove "Bearer " prefix
-
-    # If OAuth is enabled, try JWT validation first
-    if OAUTH_ENABLED:
-        payload = validate_jwt_token(token)
-        if payload:
-            log(f"Authenticated via OAuth: client_id={payload.get('client_id')}")
-            return True
-
-    # Fall back to API key authentication (for backward compatibility)
-    if MCP_API_KEY and token == MCP_API_KEY:
-        log("Authenticated via API key (legacy)")
-        return True
-
-    return False
-
-
-async def handle_oauth_token(request: Request):
-    """
-    OAuth 2.0 token endpoint for client credentials flow.
-    POST /oauth/token with grant_type=client_credentials
-    """
-    if not OAUTH_ENABLED:
-        return JSONResponse(
-            {
-                "error": "OAuth not enabled",
-                "error_description": "OAuth authentication is not configured on this server",
-            },
-            status_code=501,
-        )
-
-    try:
-        # Parse request body
-        body = await request.body()
-        params = {}
-        if request.headers.get("content-type") == "application/json":
-            params = json.loads(body)
-        else:
-            # Parse form data
-            for param in body.decode().split("&"):
-                if "=" in param:
-                    key, value = param.split("=", 1)
-                    params[key] = value
-
-        grant_type = params.get("grant_type")
-        client_id = params.get("client_id")
-        client_secret = params.get("client_secret")
-
-        # Validate grant type
-        if grant_type != "client_credentials":
-            return JSONResponse(
-                {
-                    "error": "unsupported_grant_type",
-                    "error_description": "Only client_credentials grant type is supported",
-                },
-                status_code=400,
-            )
-
-        # Validate client credentials
-        if not client_id or not client_secret:
-            return JSONResponse(
-                {"error": "invalid_request", "error_description": "client_id and client_secret are required"},
-                status_code=400,
-            )
-
-        if not verify_client_credentials(client_id, client_secret):
-            return JSONResponse(
-                {"error": "invalid_client", "error_description": "Invalid client credentials"},
-                status_code=401,
-            )
-
-        # Generate access token
-        token_data = generate_access_token(client_id)
-        log(f"Generated OAuth token for client: {client_id}")
-
-        return JSONResponse(token_data, status_code=200)
-
-    except json.JSONDecodeError:
-        return JSONResponse(
-            {"error": "invalid_request", "error_description": "Invalid JSON in request body"},
-            status_code=400,
-        )
-    except Exception as e:
-        log(f"Error in OAuth token endpoint: {e}")
-        return JSONResponse(
-            {"error": "server_error", "error_description": "Internal server error"},
-            status_code=500,
-        )
+    return token == MCP_API_KEY
 
 
 async def handle_health(request: Request):
@@ -546,7 +388,6 @@ async def handle_health(request: Request):
         "mcp_server": "running",
         "django_api": api_status,
         "api_url": API_BASE_URL,
-        "oauth_enabled": OAUTH_ENABLED,
     }
 
     if api_error:
@@ -600,18 +441,13 @@ def create_app():
     """Create the Starlette application."""
     validate_config()
 
-    routes = [
-        Route("/health", endpoint=handle_health, methods=["GET"]),
-        Route("/sse", endpoint=handle_sse),
-        Route("/messages", endpoint=handle_messages, methods=["POST"]),
-    ]
-
-    # Add OAuth token endpoint if OAuth is enabled
-    if OAUTH_ENABLED:
-        routes.append(Route("/oauth/token", endpoint=handle_oauth_token, methods=["POST"]))
-        log("OAuth token endpoint enabled at /oauth/token")
-
-    return Starlette(routes=routes)
+    return Starlette(
+        routes=[
+            Route("/health", endpoint=handle_health, methods=["GET"]),
+            Route("/sse", endpoint=handle_sse),
+            Route("/messages", endpoint=handle_messages, methods=["POST"]),
+        ]
+    )
 
 
 async def run_stdio():

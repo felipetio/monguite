@@ -87,79 +87,12 @@ MCP_TRANSPORT=http MCP_HOST=127.0.0.1 MCP_PORT=8080 uv run python mcp/server.py
 
 **Authentication:**
 
-The MCP server supports two authentication methods:
-
-1. **OAuth 2.0 Client Credentials Flow** (recommended for production)
-2. **Legacy API Key** (for backward compatibility)
-
-### OAuth 2.0 Authentication
-
-OAuth is recommended for production deployments and custom MCP client integrations. It provides:
-- Secure token-based authentication
-- Token expiration and automatic renewal
-- Standard OAuth 2.0 client credentials flow
-
-**Configuration:**
-
-Set the following environment variables:
-
-```bash
-OAUTH_ENABLED=true
-OAUTH_CLIENT_ID=your-client-id
-OAUTH_CLIENT_SECRET=your-client-secret-here
-OAUTH_JWT_SECRET=your-jwt-signing-secret-min-32-chars
-OAUTH_TOKEN_EXPIRY=3600  # Token expiry in seconds (default: 1 hour)
-```
-
-**OAuth Endpoints:**
-- `POST /oauth/token` - Token endpoint for client credentials flow
-
-**Getting an Access Token:**
-
-```bash
-# Request access token
-curl -X POST http://localhost:8001/oauth/token \
-  -H "Content-Type: application/json" \
-  -d '{
-    "grant_type": "client_credentials",
-    "client_id": "your-client-id",
-    "client_secret": "your-client-secret"
-  }'
-
-# Response:
-{
-  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "token_type": "Bearer",
-  "expires_in": 3600
-}
-```
-
-**Using the Access Token:**
-
-```bash
-# Use the access token in the Authorization header
-curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." \
-     http://localhost:8001/sse
-```
-
-**Token Renewal:**
-
-When the token expires (after `expires_in` seconds), request a new token using the same client credentials.
-
-### Legacy API Key Authentication
-
-For backward compatibility, you can use the simple API key authentication:
-
-```bash
-MCP_API_KEY=your-api-key-here
-```
-
-When `MCP_API_KEY` is set and OAuth is disabled, all requests to `/sse` and `/messages` must include:
+When `MCP_API_KEY` is set, all requests to `/sse` and `/messages` must include:
 ```
 Authorization: Bearer your-api-key-here
 ```
 
-**Note:** The `/health` endpoint is always accessible without authentication.
+The `/health` endpoint is always accessible without authentication.
 
 
 ## Testing
@@ -238,17 +171,8 @@ ALLOWED_HOSTS=your-domain.com
 
 # MCP Server
 MCP_TRANSPORT=http
+MCP_API_KEY=your-secure-api-key-here
 MONGUITE_API_URL=http://localhost:8000
-
-# OAuth Authentication (recommended)
-OAUTH_ENABLED=true
-OAUTH_CLIENT_ID=your-client-id
-OAUTH_CLIENT_SECRET=your-secure-client-secret
-OAUTH_JWT_SECRET=your-jwt-secret-min-32-chars
-OAUTH_TOKEN_EXPIRY=3600
-
-# Legacy API Key (alternative to OAuth)
-# MCP_API_KEY=your-secure-api-key-here
 ```
 
 **Deployment Steps:**
@@ -269,11 +193,8 @@ OAUTH_TOKEN_EXPIRY=3600
 
    # Set environment variables
    heroku config:set SECRET_KEY=your-secret-key
+   heroku config:set MCP_API_KEY=your-mcp-api-key
    heroku config:set MCP_TRANSPORT=http
-   heroku config:set OAUTH_ENABLED=true
-   heroku config:set OAUTH_CLIENT_ID=your-client-id
-   heroku config:set OAUTH_CLIENT_SECRET=your-client-secret
-   heroku config:set OAUTH_JWT_SECRET=your-jwt-secret
 
    # Deploy
    git push heroku main
@@ -300,23 +221,13 @@ The MCP server can be integrated with n8n workflows to enable AI-powered data qu
    In your n8n workflow, use the HTTP Request node or a custom MCP client node:
 
    ```javascript
-   // Example: Get OAuth token first
-   const tokenEndpoint = 'https://your-app.railway.app/oauth/token';
-   const tokenResponse = await fetch(tokenEndpoint, {
-     method: 'POST',
-     headers: { 'Content-Type': 'application/json' },
-     body: JSON.stringify({
-       grant_type: 'client_credentials',
-       client_id: 'your-client-id',
-       client_secret: 'your-client-secret'
-     })
-   });
-   const { access_token } = await tokenResponse.json();
-
-   // Connect to MCP SSE endpoint with OAuth token
+   // Example: Connect to MCP SSE endpoint
    const mcpEndpoint = 'https://your-app.railway.app/sse';
+   const apiKey = 'your-mcp-api-key';
+
+   // Add Authorization header
    headers: {
-     'Authorization': `Bearer ${access_token}`
+     'Authorization': `Bearer ${apiKey}`
    }
    ```
 
@@ -342,7 +253,7 @@ User Message → AI Agent → MCP Tool Call → Monguite API → Response
 curl https://your-app.railway.app/health
 
 # Test SSE endpoint (requires auth)
-curl -H "Authorization: Bearer YOUR_API_KEY_HERE" \
+curl -H "Authorization: Bearer your-api-key" \
      https://your-app.railway.app/sse
 ```
 
@@ -376,30 +287,6 @@ railway logs
 ```
 
 **Authentication Issues:**
-
-For OAuth:
-```bash
-# Test OAuth token endpoint
-curl -X POST https://your-app.railway.app/oauth/token \
-  -H "Content-Type: application/json" \
-  -d '{
-    "grant_type": "client_credentials",
-    "client_id": "your-client-id",
-    "client_secret": "your-client-secret"
-  }'
-
-# Verify token works
-TOKEN="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-curl -H "Authorization: Bearer $TOKEN" \
-     https://your-app.railway.app/health
-
-# Common issues:
-# - "invalid_client": Check OAUTH_CLIENT_ID and OAUTH_CLIENT_SECRET match
-# - "JWT token expired": Request a new token
-# - "OAuth not enabled": Set OAUTH_ENABLED=true
-```
-
-For Legacy API Key:
 ```bash
 # Verify API key is set
 echo $MCP_API_KEY

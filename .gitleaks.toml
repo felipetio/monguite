@@ -6,12 +6,9 @@ useDefault = true
 description = "Allowlisted files and patterns"
 paths = [
     '''.env.example''',
-    '''mcp/README.md''',  # Documentation contains example tokens/keys
 ]
 
 # Allow common test/example patterns
 regexes = [
     '''(?i)(password|secret|key|token).*=.*(test|example|dummy)''',
-    # Allow JWT token examples in documentation (starts with eyJ)
-    '''eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9''',
 ]

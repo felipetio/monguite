@@ -41,7 +41,6 @@ mcp = [
     "starlette>=0.50.0,<0.51",
     "uvicorn>=0.38.0,<0.39",
     "python-dotenv>=1.0.0,<2",
-    "pyjwt>=2.9.0,<3",
 ]
 
 [tool.uv]
