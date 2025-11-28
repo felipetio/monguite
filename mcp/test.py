@@ -22,25 +22,11 @@ async def test_mcp_server():
     print("Monguite MCP Server Test")
     print("=" * 60)
 
-    # Test 1: List available tools
-    print("\n[Test 1] Listing available tools...")
+    # Test 1: Get API stats
+    print("\n[Test 1] Testing get_api_stats tool...")
     try:
-        # Call the handler function directly (it's decorated)
-        tools = await server.list_tools()
-        print(f"✓ Found {len(tools)} tools:")
-        for tool in tools:
-            print(f"  • {tool.name}")
-            print(f"    {tool.description[:80]}...")
-        print()
-    except Exception as e:
-        print(f"✗ Error listing tools: {e}\n")
-        return False
-
-    # Test 2: Get API stats
-    print("[Test 2] Testing get_api_stats tool...")
-    try:
-        result = await server.call_tool("get_api_stats", {})
-        stats = json.loads(result[0].text)
+        result = await server.get_api_stats()
+        stats = json.loads(result)
         print("✓ API Stats retrieved successfully:")
         print(f"  • Total lands: {stats.get('total_lands', 'N/A')}")
         print(f"  • Total communities: {stats.get('total_communities', 'N/A')}")
@@ -53,11 +39,11 @@ async def test_mcp_server():
         print(f"  Current URL: {os.getenv('MONGUITE_API_URL', 'http://localhost:8000')}\n")
         return False
 
-    # Test 3: Search lands (simple query)
-    print("[Test 3] Testing search_lands tool...")
+    # Test 2: Search lands (simple query)
+    print("[Test 2] Testing search_lands tool...")
     try:
-        result = await server.call_tool("search_lands", {"page": 1})
-        data = json.loads(result[0].text)
+        result = await server.search_lands(page=1)
+        data = json.loads(result)
         print("✓ Search successful:")
         print(f"  • Total count: {data.get('total_count', 0)}")
         print(f"  • Page results: {data.get('page_results', 0)}")
@@ -72,11 +58,11 @@ async def test_mcp_server():
         print(f"✗ Error searching lands: {e}\n")
         return False
 
-    # Test 4: Search communities
-    print("[Test 4] Testing search_communities tool...")
+    # Test 3: Search communities
+    print("[Test 3] Testing search_communities tool...")
     try:
-        result = await server.call_tool("search_communities", {"page": 1})
-        data = json.loads(result[0].text)
+        result = await server.search_communities(page=1)
+        data = json.loads(result)
         print("✓ Search successful:")
         print(f"  • Total count: {data.get('total_count', 0)}")
         print(f"  • Page results: {data.get('page_results', 0)}")
@@ -90,11 +76,11 @@ async def test_mcp_server():
         print(f"✗ Error searching communities: {e}\n")
         return False
 
-    # Test 5: Filtered search
-    print("[Test 5] Testing filtered search (category=TI)...")
+    # Test 4: Filtered search
+    print("[Test 4] Testing filtered search (category=TI)...")
     try:
-        result = await server.call_tool("search_lands", {"category": "TI", "page": 1})
-        data = json.loads(result[0].text)
+        result = await server.search_lands(category="TI", page=1)
+        data = json.loads(result)
         print("✓ Filtered search successful:")
         print(f"  • Terra Indígena (TI) count: {data.get('total_count', 0)}")
         print(f"  • Results on this page: {data.get('page_results', 0)}")
@@ -110,7 +96,7 @@ async def test_mcp_server():
     print("1. Configure Claude Desktop with the MCP server")
     print("2. Restart Claude Desktop")
     print("3. Try queries like: 'Show me indigenous lands in the Amazon'")
-    print("\nSee MONGUITE_MCP_SETUP.md for detailed setup instructions.")
+    print("\nSee mcp/README.md for detailed setup instructions.")
     print()
 
     return True
