@@ -400,6 +400,7 @@ def create_app():
 
     # Create wrapper app with health endpoint and auth middleware
     # IMPORTANT: Pass the MCP app's lifespan to initialize the session manager
+    # The lifespan is on the router, not the app directly
     # See: https://github.com/modelcontextprotocol/python-sdk/issues/673
     app = Starlette(
         routes=[
@@ -409,7 +410,7 @@ def create_app():
         middleware=[
             Middleware(BearerTokenMiddleware),
         ],
-        lifespan=mcp_app.lifespan,
+        lifespan=mcp_app.router.lifespan_context,
     )
 
     return app
