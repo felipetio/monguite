@@ -9,6 +9,7 @@ Supports two transport modes:
 """
 
 import json
+import logging
 import os
 import sys
 from pathlib import Path
@@ -39,6 +40,9 @@ MCP_PORT = int(os.getenv("MCP_PORT", "8001"))
 MCP_TRANSPORT = os.getenv("MCP_TRANSPORT", "stdio")  # stdio or http
 MCP_BEARER_TOKEN = os.getenv("MCP_BEARER_TOKEN")  # Bearer token for HTTP authentication
 
+# Configure logger
+logger = logging.getLogger("monguite.mcp")
+
 # Initialize MCP server
 mcp = FastMCP(
     name="monguite-api",
@@ -48,24 +52,19 @@ mcp = FastMCP(
 )
 
 
-def log(message: str):
-    """Log to stderr (stdout is used for MCP protocol)."""
-    print(f"[Monguite MCP] {message}", file=sys.stderr, flush=True)
-
-
 def validate_config():
     """Validate environment configuration at startup."""
     if not API_BASE_URL:
-        log("ERROR: MONGUITE_API_URL not set")
+        logger.error("MONGUITE_API_URL not set")
         sys.exit(1)
 
     if MCP_TRANSPORT.lower() == "http" and not MCP_BEARER_TOKEN:
-        log("WARNING: MCP_BEARER_TOKEN not set - API will be unauthenticated!")
+        logger.warning("MCP_BEARER_TOKEN not set - API will be unauthenticated!")
 
-    log("Configuration loaded:")
-    log(f"  API URL: {API_BASE_URL}")
-    log(f"  API Token: {'Set' if API_TOKEN else 'Not set'}")
-    log(f"  MCP Bearer Token: {'Set' if MCP_BEARER_TOKEN else 'Not set'}")
+    logger.info("Configuration loaded:")
+    logger.info(f"  API URL: {API_BASE_URL}")
+    logger.info(f"  API Token: {'Set' if API_TOKEN else 'Not set'}")
+    logger.info(f"  MCP Bearer Token: {'Set' if MCP_BEARER_TOKEN else 'Not set'}")
 
 
 async def get_client() -> httpx.AsyncClient:
@@ -128,7 +127,7 @@ async def search_lands(
         page: Page number for pagination (default: 1)
         ordering: Field to order by (prefix with '-' for descending)
     """
-    log("Tool called: search_lands")
+    logger.info("Tool called: search_lands")
 
     params = {}
     if name is not None:
@@ -152,7 +151,7 @@ async def search_lands(
     if ordering is not None:
         params["ordering"] = ordering
 
-    log(f"Searching lands with params: {params}")
+    logger.debug(f"Searching lands with params: {params}")
 
     async with await get_client() as client:
         try:
@@ -170,10 +169,10 @@ async def search_lands(
             return json.dumps(result, indent=2, ensure_ascii=False)
 
         except httpx.HTTPStatusError as e:
-            log(f"HTTP error {e.response.status_code}: {e.response.text}")
+            logger.error(f"HTTP error {e.response.status_code}: {e.response.text}")
             return f"API Error {e.response.status_code}: {e.response.text}"
         except Exception as e:
-            log(f"Unexpected error: {type(e).__name__}: {e}")
+            logger.error(f"Unexpected error: {type(e).__name__}: {e}")
             return f"Error: {str(e)}"
 
 
@@ -186,7 +185,7 @@ async def get_land_details(land_id: str) -> str:
     Args:
         land_id: UUID of the land to retrieve
     """
-    log(f"Tool called: get_land_details({land_id})")
+    logger.info(f"Tool called: get_land_details({land_id})")
 
     async with await get_client() as client:
         try:
@@ -197,10 +196,10 @@ async def get_land_details(land_id: str) -> str:
             return json.dumps(data, indent=2, ensure_ascii=False)
 
         except httpx.HTTPStatusError as e:
-            log(f"HTTP error {e.response.status_code}: {e.response.text}")
+            logger.error(f"HTTP error {e.response.status_code}: {e.response.text}")
             return f"API Error {e.response.status_code}: {e.response.text}"
         except Exception as e:
-            log(f"Unexpected error: {type(e).__name__}: {e}")
+            logger.error(f"Unexpected error: {type(e).__name__}: {e}")
             return f"Error: {str(e)}"
 
 
@@ -226,7 +225,7 @@ async def search_communities(
         page: Page number for pagination (default: 1)
         ordering: Field to order by (prefix with '-' for descending)
     """
-    log("Tool called: search_communities")
+    logger.info("Tool called: search_communities")
 
     params = {}
     if name is not None:
@@ -242,7 +241,7 @@ async def search_communities(
     if ordering is not None:
         params["ordering"] = ordering
 
-    log(f"Searching communities with params: {params}")
+    logger.debug(f"Searching communities with params: {params}")
 
     async with await get_client() as client:
         try:
@@ -260,10 +259,10 @@ async def search_communities(
             return json.dumps(result, indent=2, ensure_ascii=False)
 
         except httpx.HTTPStatusError as e:
-            log(f"HTTP error {e.response.status_code}: {e.response.text}")
+            logger.error(f"HTTP error {e.response.status_code}: {e.response.text}")
             return f"API Error {e.response.status_code}: {e.response.text}"
         except Exception as e:
-            log(f"Unexpected error: {type(e).__name__}: {e}")
+            logger.error(f"Unexpected error: {type(e).__name__}: {e}")
             return f"Error: {str(e)}"
 
 
@@ -276,7 +275,7 @@ async def get_community_details(community_id: str) -> str:
     Args:
         community_id: UUID of the community to retrieve
     """
-    log(f"Tool called: get_community_details({community_id})")
+    logger.info(f"Tool called: get_community_details({community_id})")
 
     async with await get_client() as client:
         try:
@@ -287,10 +286,10 @@ async def get_community_details(community_id: str) -> str:
             return json.dumps(data, indent=2, ensure_ascii=False)
 
         except httpx.HTTPStatusError as e:
-            log(f"HTTP error {e.response.status_code}: {e.response.text}")
+            logger.error(f"HTTP error {e.response.status_code}: {e.response.text}")
             return f"API Error {e.response.status_code}: {e.response.text}"
         except Exception as e:
-            log(f"Unexpected error: {type(e).__name__}: {e}")
+            logger.error(f"Unexpected error: {type(e).__name__}: {e}")
             return f"Error: {str(e)}"
 
 
@@ -300,7 +299,7 @@ async def get_api_stats() -> str:
 
     Returns counts of lands and communities, useful for understanding the dataset scope.
     """
-    log("Tool called: get_api_stats")
+    logger.info("Tool called: get_api_stats")
 
     async with await get_client() as client:
         try:
@@ -324,10 +323,10 @@ async def get_api_stats() -> str:
             return json.dumps(stats, indent=2, ensure_ascii=False)
 
         except httpx.HTTPStatusError as e:
-            log(f"HTTP error {e.response.status_code}: {e.response.text}")
+            logger.error(f"HTTP error {e.response.status_code}: {e.response.text}")
             return f"API Error {e.response.status_code}: {e.response.text}"
         except Exception as e:
-            log(f"Unexpected error: {type(e).__name__}: {e}")
+            logger.error(f"Unexpected error: {type(e).__name__}: {e}")
             return f"Error: {str(e)}"
 
 
@@ -418,9 +417,9 @@ def create_app():
 
 async def run_http():
     """Run the MCP server over HTTP with Streamable HTTP transport."""
-    log(f"Starting Monguite MCP server (HTTP mode) on {MCP_HOST}:{MCP_PORT}...")
-    log(f"MCP endpoint: http://{MCP_HOST}:{MCP_PORT}/mcp")
-    log(f"Health endpoint: http://{MCP_HOST}:{MCP_PORT}/health")
+    logger.info(f"Starting Monguite MCP server (HTTP mode) on {MCP_HOST}:{MCP_PORT}...")
+    logger.info(f"MCP endpoint: http://{MCP_HOST}:{MCP_PORT}/mcp")
+    logger.info(f"Health endpoint: http://{MCP_HOST}:{MCP_PORT}/health")
 
     config = uvicorn.Config(create_app(), host=MCP_HOST, port=MCP_PORT, log_level="info")
     server = uvicorn.Server(config)
@@ -430,7 +429,7 @@ async def run_http():
 def run_stdio():
     """Run the MCP server over stdio (for Claude Desktop)."""
     validate_config()
-    log("Starting Monguite MCP server (stdio mode)...")
+    logger.info("Starting Monguite MCP server (stdio mode)...")
     mcp.run(transport="stdio")
 
 
