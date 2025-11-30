@@ -189,14 +189,49 @@ def test_land_list_api(client):
 
 ## Configuration
 
+### Settings Architecture
+
+The project uses a modular settings structure for different environments:
+
+**Settings Modules:**
+
+- `config/settings/base.py` - Shared settings for all environments
+- `config/settings/local.py` - Development settings (includes debug tools)
+- `config/settings/production.py` - Production settings (security-optimized)
+
+**Selecting Settings:**
+
+The `DJANGO_SETTINGS_MODULE` environment variable determines which settings to use:
+
+- **Local development**: `config.settings.local` (default in manage.py)
+- **Production**: `config.settings.production` (default in wsgi.py/asgi.py)
+
 **Environment Variables** (`.env` file):
 
+- `DJANGO_SETTINGS_MODULE`: Settings module to use (required)
 - `SECRET_KEY`: Django secret key (required)
 - `DATABASE_URL`: PostgreSQL connection string (required)
 - `REDIS_URL`: Redis connection string (required)
 - `DEBUG`: Enable debug mode (default: False)
+- `ALLOWED_HOSTS`: Comma-separated list of allowed hosts for production
 
-**Settings Module**: `config/settings.py` uses `django-environ` for environment-based configuration.
+**Production Deployment (Railway/Render/etc.):**
+
+Set the following environment variables in your deployment platform:
+
+```bash
+DJANGO_SETTINGS_MODULE=config.settings.production
+SECRET_KEY=<your-production-secret-key>
+DATABASE_URL=<your-database-url>
+REDIS_URL=<your-redis-url>
+ALLOWED_HOSTS=your-domain.com,*.railway.app
+DEBUG=False
+```
+
+**Development vs Production:**
+
+- **Development** (local.py): Includes `django-extensions`, `debug-toolbar`, and dev middleware
+- **Production** (production.py): Excludes dev tools, enables security headers (HSTS, SSL redirect, etc.)
 
 ## Code Style & Conventions
 
