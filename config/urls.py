@@ -25,6 +25,8 @@ urlpatterns = [
         name="swagger-ui",
     ),
     path("api/v1/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
+    # MCP Server endpoint
+    path("", include("mcp_server.urls")),
 ]
 
 # Debug toolbar (only in development)

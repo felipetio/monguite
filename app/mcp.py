@@ -1,82 +1,39 @@
-#!/usr/bin/env python3
 """
-Monguite MCP Server
-Exposes the Monguite API for indigenous land data through MCP tools.
+Monguite MCP Tools
 
-Supports two transport modes:
-- stdio: For Claude Desktop and local development
-- streamable-http: For n8n cloud and production deployments
+Exposes the Monguite API for indigenous land data through MCP tools.
+Uses httpx to call the Django REST API endpoints.
 """
 
 import json
 import logging
-import os
-import sys
-from pathlib import Path
 from typing import Literal
 
+from django.conf import settings
+
 import httpx
-import uvicorn
-from dotenv import load_dotenv
-from starlette.applications import Starlette
-from starlette.middleware import Middleware
-from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.requests import Request
-from starlette.responses import JSONResponse
-from starlette.routing import Mount, Route
 
-from mcp.server.fastmcp import FastMCP
+from mcp_server import mcp_server
 
-# Load environment variables from .env file
-# Look for .env in the project root (parent of mcp directory)
-env_path = Path(__file__).parent.parent / ".env"
-load_dotenv(env_path)
-
-# Environment configuration
-API_BASE_URL = os.getenv("MONGUITE_API_URL")
-API_TOKEN = os.getenv("MONGUITE_API_TOKEN")
-MCP_HOST = os.getenv("MCP_HOST", "0.0.0.0")
-MCP_PORT = int(os.getenv("MCP_PORT", "8001"))
-MCP_TRANSPORT = os.getenv("MCP_TRANSPORT", "stdio")  # stdio or http
-MCP_BEARER_TOKEN = os.getenv("MCP_BEARER_TOKEN")  # Bearer token for HTTP authentication
-
-# Configure logger
 logger = logging.getLogger("monguite.mcp")
-
-# Initialize MCP server
-mcp = FastMCP(
-    name="monguite-api",
-    host=MCP_HOST,
-    port=MCP_PORT,
-    streamable_http_path="/mcp",
-)
-
-
-def validate_config():
-    """Validate environment configuration at startup."""
-    if not API_BASE_URL:
-        logger.error("MONGUITE_API_URL not set")
-        sys.exit(1)
-
-    if MCP_TRANSPORT.lower() == "http" and not MCP_BEARER_TOKEN:
-        logger.warning("MCP_BEARER_TOKEN not set - API will be unauthenticated!")
-
-    logger.info("Configuration loaded:")
-    logger.info(f"  API URL: {API_BASE_URL}")
-    logger.info(f"  API Token: {'Set' if API_TOKEN else 'Not set'}")
-    logger.info(f"  MCP Bearer Token: {'Set' if MCP_BEARER_TOKEN else 'Not set'}")
 
 
 async def get_client() -> httpx.AsyncClient:
     """Create an async HTTP client with proper headers and retry logic."""
     headers = {}
-    if API_TOKEN:
-        headers["Authorization"] = f"Bearer {API_TOKEN}"
+    api_token = getattr(settings, "MCP_API_TOKEN", "")
+    if api_token:
+        headers["Authorization"] = f"Bearer {api_token}"
 
-    # Add retry logic for transient failures
     transport = httpx.AsyncHTTPTransport(retries=3)
+    base_url = getattr(settings, "MCP_API_BASE_URL", "http://localhost:8000")
 
-    return httpx.AsyncClient(base_url=API_BASE_URL, headers=headers, timeout=30.0, transport=transport)
+    return httpx.AsyncClient(
+        base_url=base_url,
+        headers=headers,
+        timeout=30.0,
+        transport=transport,
+    )
 
 
 def format_land_results(results: list[dict]) -> list[dict]:
@@ -97,7 +54,7 @@ def format_land_results(results: list[dict]) -> list[dict]:
     return formatted
 
 
-@mcp.tool()
+@mcp_server.tool()
 async def search_lands(
     name: str | None = None,
     category: Literal["DI", "PI", "RI", "TI"] | None = None,
@@ -117,11 +74,11 @@ async def search_lands(
 
     Args:
         name: Filter by land name (partial match)
-        category: Land category - DI (Dominial Indígena), PI (Parque Indígena), RI (Reserva Indígena), TI (Terra Indígena)
+        category: Land category - DI (Dominial Indigena), PI (Parque Indigena), RI (Reserva Indigena), TI (Terra Indigena)
         state: Filter by Brazilian state name
         state_code: Filter by state code (e.g., 'AM', 'PA')
         municipality: Filter by municipality name
-        biome: Filter by biome (e.g., 'Amazônia', 'Cerrado', 'Mata Atlântica')
+        biome: Filter by biome (e.g., 'Amazonia', 'Cerrado', 'Mata Atlantica')
         community: Filter by indigenous community name
         search: General search term across multiple fields
         page: Page number for pagination (default: 1)
@@ -173,10 +130,10 @@ async def search_lands(
             return f"API Error {e.response.status_code}: {e.response.text}"
         except Exception as e:
             logger.error(f"Unexpected error: {type(e).__name__}: {e}")
-            return f"Error: {str(e)}"
+            return f"Error: {e!s}"
 
 
-@mcp.tool()
+@mcp_server.tool()
 async def get_land_details(land_id: str) -> str:
     """Retrieve detailed information about a specific indigenous land by its UUID.
 
@@ -200,10 +157,10 @@ async def get_land_details(land_id: str) -> str:
             return f"API Error {e.response.status_code}: {e.response.text}"
         except Exception as e:
             logger.error(f"Unexpected error: {type(e).__name__}: {e}")
-            return f"Error: {str(e)}"
+            return f"Error: {e!s}"
 
 
-@mcp.tool()
+@mcp_server.tool()
 async def search_communities(
     name: str | None = None,
     lands_count_min: int | None = None,
@@ -263,10 +220,10 @@ async def search_communities(
             return f"API Error {e.response.status_code}: {e.response.text}"
         except Exception as e:
             logger.error(f"Unexpected error: {type(e).__name__}: {e}")
-            return f"Error: {str(e)}"
+            return f"Error: {e!s}"
 
 
-@mcp.tool()
+@mcp_server.tool()
 async def get_community_details(community_id: str) -> str:
     """Retrieve detailed information about a specific indigenous community by its UUID.
 
@@ -290,10 +247,10 @@ async def get_community_details(community_id: str) -> str:
             return f"API Error {e.response.status_code}: {e.response.text}"
         except Exception as e:
             logger.error(f"Unexpected error: {type(e).__name__}: {e}")
-            return f"Error: {str(e)}"
+            return f"Error: {e!s}"
 
 
-@mcp.tool()
+@mcp_server.tool()
 async def get_api_stats() -> str:
     """Get summary statistics about the Monguite database.
 
@@ -313,10 +270,12 @@ async def get_api_stats() -> str:
             lands_data = lands_response.json()
             communities_data = communities_response.json()
 
+            base_url = getattr(settings, "MCP_API_BASE_URL", "http://localhost:8000")
+
             stats = {
                 "total_lands": lands_data.get("count", 0),
                 "total_communities": communities_data.get("count", 0),
-                "api_base_url": API_BASE_URL,
+                "api_base_url": base_url,
                 "api_status": "connected",
             }
 
@@ -327,121 +286,4 @@ async def get_api_stats() -> str:
             return f"API Error {e.response.status_code}: {e.response.text}"
         except Exception as e:
             logger.error(f"Unexpected error: {type(e).__name__}: {e}")
-            return f"Error: {str(e)}"
-
-
-# HTTP mode middleware and endpoints
-
-
-class BearerTokenMiddleware(BaseHTTPMiddleware):
-    """Middleware to validate Bearer token authentication."""
-
-    async def dispatch(self, request: Request, call_next):
-        # Skip auth for health endpoint
-        if request.url.path == "/health":
-            return await call_next(request)
-
-        # Allow unauthenticated access in development mode (no token configured)
-        if not MCP_BEARER_TOKEN:
-            return await call_next(request)
-
-        auth_header = request.headers.get("Authorization", "")
-        if not auth_header.startswith("Bearer "):
-            return JSONResponse(
-                {"error": "Unauthorized", "message": "Missing Bearer token"},
-                status_code=401,
-            )
-
-        token = auth_header[7:]  # Remove "Bearer " prefix
-        if token != MCP_BEARER_TOKEN:
-            return JSONResponse(
-                {"error": "Unauthorized", "message": "Invalid Bearer token"},
-                status_code=401,
-            )
-
-        return await call_next(request)
-
-
-async def handle_health(request: Request):
-    """Health check endpoint."""
-    # Test Django API connectivity
-    api_status = "disconnected"
-    api_error = None
-
-    try:
-        async with await get_client() as client:
-            response = await client.get("/api/v1/lands/", params={"page": 1})
-            response.raise_for_status()
-            api_status = "connected"
-    except Exception as e:
-        api_error = str(e)
-
-    health_data = {
-        "status": "healthy" if api_status == "connected" else "degraded",
-        "mcp_server": "running",
-        "django_api": api_status,
-        "api_url": API_BASE_URL,
-    }
-
-    if api_error:
-        health_data["api_error"] = api_error
-
-    status_code = 200 if api_status == "connected" else 503
-    return JSONResponse(health_data, status_code=status_code)
-
-
-def create_app():
-    """Create the Starlette application with Streamable HTTP transport."""
-    validate_config()
-
-    # Get the MCP streamable HTTP app
-    mcp_app = mcp.streamable_http_app()
-
-    # Create wrapper app with health endpoint and auth middleware
-    # IMPORTANT: Pass the MCP app's lifespan to initialize the session manager
-    # The lifespan is on the router, not the app directly
-    # See: https://github.com/modelcontextprotocol/python-sdk/issues/673
-    app = Starlette(
-        routes=[
-            Route("/health", endpoint=handle_health, methods=["GET"]),
-            Mount("/", app=mcp_app),
-        ],
-        middleware=[
-            Middleware(BearerTokenMiddleware),
-        ],
-        lifespan=mcp_app.router.lifespan_context,
-    )
-
-    return app
-
-
-async def run_http():
-    """Run the MCP server over HTTP with Streamable HTTP transport."""
-    logger.info(f"Starting Monguite MCP server (HTTP mode) on {MCP_HOST}:{MCP_PORT}...")
-    logger.info(f"MCP endpoint: http://{MCP_HOST}:{MCP_PORT}/mcp")
-    logger.info(f"Health endpoint: http://{MCP_HOST}:{MCP_PORT}/health")
-
-    config = uvicorn.Config(create_app(), host=MCP_HOST, port=MCP_PORT, log_level="info")
-    server = uvicorn.Server(config)
-    await server.serve()
-
-
-def run_stdio():
-    """Run the MCP server over stdio (for Claude Desktop)."""
-    validate_config()
-    logger.info("Starting Monguite MCP server (stdio mode)...")
-    mcp.run(transport="stdio")
-
-
-def main():
-    """Run the MCP server in the configured transport mode."""
-    if MCP_TRANSPORT.lower() == "http":
-        import asyncio
-
-        asyncio.run(run_http())
-    else:
-        run_stdio()
-
-
-if __name__ == "__main__":
-    main()
+            return f"Error: {e!s}"

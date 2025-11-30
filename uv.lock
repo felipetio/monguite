@@ -562,6 +562,22 @@ wheels = [
 ]
 
 [[package]]
+name = "django-mcp-server"
+version = "0.5.7"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+    { name = "djangorestframework" },
+    { name = "inflection" },
+    { name = "mcp" },
+    { name = "uritemplate" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b2/70/e2cf268b77d0aa171b72763325279284561dbbd9b80ed4fd6975b4b7bd9c/django_mcp_server-0.5.7.tar.gz", hash = "sha256:5077f8fabf5fb621b5ce490afd0db60f21e57b3a451ed14a9f44aef545ea4eee", size = 23910, upload-time = "2025-10-10T17:13:34.681Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/2c/01/f78a11f51437f70b4ff2d9f131d47acf82c2a4cf78d63e9cf291e3727054/django_mcp_server-0.5.7-py3-none-any.whl", hash = "sha256:04b58bf02623aaee59708c3661ffe17981acd4532587c38b6cfe2c9e7090c6d3", size = 26389, upload-time = "2025-10-10T17:13:33.56Z" },
+]
+
+[[package]]
 name = "django-redis"
 version = "5.4.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1018,10 +1034,12 @@ dependencies = [
     { name = "django-environ" },
     { name = "django-extensions" },
     { name = "django-filter" },
+    { name = "django-mcp-server" },
     { name = "django-redis" },
     { name = "djangorestframework" },
     { name = "drf-spectacular" },
     { name = "gunicorn" },
+    { name = "httpx" },
     { name = "psycopg2-binary" },
     { name = "requests" },
 ]
@@ -1042,14 +1060,6 @@ dev = [
     { name = "ruff" },
     { name = "werkzeug" },
 ]
-mcp = [
-    { name = "httpx" },
-    { name = "mcp" },
-    { name = "pydantic" },
-    { name = "python-dotenv" },
-    { name = "starlette" },
-    { name = "uvicorn" },
-]
 
 [package.metadata]
 requires-dist = [
@@ -1057,10 +1067,12 @@ requires-dist = [
     { name = "django-environ", specifier = ">=0.11.2,<0.12" },
     { name = "django-extensions", specifier = ">=3.2.3,<4" },
     { name = "django-filter", specifier = ">=25.2,<26" },
+    { name = "django-mcp-server", specifier = ">=0.5.0" },
     { name = "django-redis", specifier = ">=5.4.0,<6" },
     { name = "djangorestframework", specifier = ">=3.16.1,<4" },
     { name = "drf-spectacular", specifier = ">=0.29.0,<0.30" },
     { name = "gunicorn", specifier = ">=23.0.0,<24" },
+    { name = "httpx", specifier = ">=0.27.0,<0.28" },
     { name = "psycopg2-binary", specifier = ">=2.9.9,<3" },
     { name = "requests", specifier = ">=2.32.0,<3" },
 ]
@@ -1080,14 +1092,6 @@ dev = [
     { name = "pytest-django", specifier = ">=4.9.0,<5" },
     { name = "ruff", specifier = ">=0.11.6,<0.12" },
     { name = "werkzeug", specifier = ">=3.0.4,<4" },
-]
-mcp = [
-    { name = "httpx", specifier = ">=0.27.0,<0.28" },
-    { name = "mcp", specifier = ">=1.8.0,<2" },
-    { name = "pydantic", specifier = ">=2.0.0,<3" },
-    { name = "python-dotenv", specifier = ">=1.0.0,<2" },
-    { name = "starlette", specifier = ">=0.50.0,<0.51" },
-    { name = "uvicorn", specifier = ">=0.38.0,<0.39" },
 ]
 
 [[package]]

@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "django_filters",
     "drf_spectacular",
     "django_extensions",
+    "mcp_server",
     "app",
 ]
 
@@ -183,3 +184,23 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
 }
+
+
+# MCP Server Configuration
+# https://github.com/gts360/django-mcp-server
+
+MCP_API_BASE_URL = env("MONGUITE_API_URL", default="http://localhost:8000")
+MCP_API_TOKEN = env("MONGUITE_API_TOKEN", default="")
+MCP_BEARER_TOKEN = env("MCP_BEARER_TOKEN", default="")
+
+DJANGO_MCP_AUTHENTICATION_CLASSES = [
+    "app.mcp_auth.MCPBearerTokenAuthentication",
+]
+
+DJANGO_MCP_GLOBAL_SERVER_CONFIG = {
+    "name": "monguite-api",
+    "instructions": "MCP server for querying Brazilian indigenous land data from Monguite.",
+    "stateless": True,
+}
+
+DJANGO_MCP_ENDPOINT = "mcp"
