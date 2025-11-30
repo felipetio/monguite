@@ -133,3 +133,4 @@ dmypy.json
 .specify/
 specs/
 .serena/
+staticfiles/
