@@ -1,5 +1,5 @@
 [project]
-name = "monguite"
+name = "kapok"
 version = "0.1.0"
 description = ""
 authors = [{ name = "Felipe Vieira", email = "me@felipet.io" }]

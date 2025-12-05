@@ -1,7 +1,7 @@
 """
-Monguite MCP Tools
+Kapok MCP Tools
 
-Exposes the Monguite API for indigenous land data through MCP tools.
+Exposes the Kapok API for indigenous land data through MCP tools.
 Uses httpx to call the Django REST API endpoints.
 """
 
@@ -15,7 +15,7 @@ import httpx
 
 from mcp_server import mcp_server
 
-logger = logging.getLogger("monguite.mcp")
+logger = logging.getLogger("kapok.mcp")
 
 
 async def get_client() -> httpx.AsyncClient:
@@ -252,7 +252,7 @@ async def get_community_details(community_id: str) -> str:
 
 @mcp_server.tool()
 async def get_api_stats() -> str:
-    """Get summary statistics about the Monguite database.
+    """Get summary statistics about the Kapok database.
 
     Returns counts of lands and communities, useful for understanding the dataset scope.
     """

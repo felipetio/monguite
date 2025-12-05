@@ -1,5 +1,5 @@
 """
-Django production settings for monguite project.
+Django production settings for kapok project.
 
 These settings are optimized for production deployment.
 Security-focused with no debug tools.
