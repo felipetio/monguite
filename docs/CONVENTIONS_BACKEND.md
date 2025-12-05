@@ -1,6 +1,6 @@
 # Backend Coding Conventions
 
-This document outlines the backend coding conventions and patterns used in the Monguite project. These conventions have been identified through analysis of the existing Python codebase and should be followed for consistency and maintainability.
+This document outlines the backend coding conventions and patterns used in the Kapok project. These conventions have been identified through analysis of the existing Python codebase and should be followed for consistency and maintainability.
 
 ## How to Use This Document
 
@@ -727,7 +727,7 @@ class LandAdmin(admin.ModelAdmin):
 
 ## Summary
 
-These conventions ensure consistency across the Monguite backend codebase. When in doubt:
+These conventions ensure consistency across the Kapok backend codebase. When in doubt:
 
 1. **Follow existing patterns** - Look for similar code in the project
 2. **Prioritize readability** - Code is read more than written

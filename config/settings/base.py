@@ -1,5 +1,5 @@
 """
-Django base settings for monguite project.
+Django base settings for kapok project.
 
 These are shared settings used across all environments (local, production, etc.).
 Environment-specific settings should be defined in their respective modules.
@@ -189,7 +189,7 @@ REST_FRAMEWORK = {
 # https://drf-spectacular.readthedocs.io/en/latest/settings.html
 
 SPECTACULAR_SETTINGS = {
-    "TITLE": "Monguite API",
+    "TITLE": "Kapok API",
     "DESCRIPTION": "API for managing and tracking indigenous land data",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
@@ -199,8 +199,8 @@ SPECTACULAR_SETTINGS = {
 # MCP Server Configuration
 # https://github.com/gts360/django-mcp-server
 
-MCP_API_BASE_URL = env("MONGUITE_API_URL", default="http://localhost:8000")
-MCP_API_TOKEN = env("MONGUITE_API_TOKEN", default="")
+MCP_API_BASE_URL = env("KAPOK_API_URL", default="http://localhost:8000")
+MCP_API_TOKEN = env("KAPOK_API_TOKEN", default="")
 MCP_BEARER_TOKEN = env("MCP_BEARER_TOKEN", default="")
 
 DJANGO_MCP_AUTHENTICATION_CLASSES = [
@@ -208,8 +208,8 @@ DJANGO_MCP_AUTHENTICATION_CLASSES = [
 ]
 
 DJANGO_MCP_GLOBAL_SERVER_CONFIG = {
-    "name": "monguite-api",
-    "instructions": "MCP server for querying Brazilian indigenous land data from Monguite.",
+    "name": "kapok-api",
+    "instructions": "MCP server for querying Brazilian indigenous land data from Kapok.",
     "stateless": True,
 }
 

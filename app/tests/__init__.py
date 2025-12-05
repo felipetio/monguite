@@ -1,1 +1,1 @@
-# Tests package for Monguite app
+# Tests package for Kapok app

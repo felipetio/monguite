@@ -1,5 +1,5 @@
 """
-ASGI config for monguite project.
+ASGI config for kapok project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 

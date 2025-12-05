@@ -1,5 +1,5 @@
 """
-Django CI/testing settings for monguite project.
+Django CI/testing settings for kapok project.
 
 These settings are optimized for CI/CD pipelines and automated testing.
 """

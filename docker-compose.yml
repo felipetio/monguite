@@ -3,11 +3,11 @@ version: '3.8'
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: monguite-postgres
+    container_name: kapok-postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: monguite
+      POSTGRES_DB: kapok
     ports:
       - "5432:5432"
     volumes:
@@ -20,7 +20,7 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: monguite-redis
+    container_name: kapok-redis
     ports:
       - "6379:6379"
     volumes:

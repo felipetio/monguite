@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Monguite is a Django REST API application for managing and tracking indigenous land data, including countries, states, municipalities, biomes, and indigenous territories. The project focuses on Brazilian indigenous territories with integration to external data sources (ISA - Instituto Socioambiental).
+Kapok is a Django REST API application for managing and tracking indigenous land data, including countries, states, municipalities, biomes, and indigenous territories. The project focuses on Brazilian indigenous territories with integration to external data sources (ISA - Instituto Socioambiental).
 
 ## 🚨 Critical Rules
 

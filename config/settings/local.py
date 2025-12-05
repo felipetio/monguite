@@ -1,5 +1,5 @@
 """
-Django local/development settings for monguite project.
+Django local/development settings for kapok project.
 
 These settings are optimized for local development and include debug tools.
 """

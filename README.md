@@ -1,4 +1,4 @@
-# Monguite
+# Kapok
 
 Django app for managing Brazilian indigenous land data.
 

@@ -1,5 +1,5 @@
 """
-WSGI config for monguite project.
+WSGI config for kapok project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
